@@ -36,9 +36,6 @@ table{border-collapse:collapse;width:100%}
 .sum-label{font-size:10px;color:#888;margin-bottom:2px}
 .sum-val{font-size:14px;font-weight:700}
 textarea{width:100%;font-size:12px;font-family:monospace;min-height:80px;resize:vertical;border-radius:8px;border:1px solid #ccc;padding:8px;background:#fff;-webkit-appearance:none}
-.load-btn{font-size:13px;padding:10px 14px;border-radius:8px;border:1.5px solid #ccc;background:#f7f7f7;color:#333;cursor:pointer;line-height:1.4;text-align:left;min-height:44px}
-.load-btn.fresh{border-color:#639922;background:#EAF3DE;color:#27500A}
-.load-btn.stale{border-color:#E24B4A;background:#FCEBEB;color:#791F1F}
 .action-btn{font-size:13px;padding:10px 16px;border-radius:8px;border:1px solid #ccc;background:#f0f0f0;color:#333;cursor:pointer;min-height:44px}
 .primary-btn{background:#1a73e8;border-color:#1558b0;color:#fff;font-weight:600}
 .danger-btn{background:#E24B4A;border-color:#A32D2D;color:#fff}
@@ -61,12 +58,9 @@ select{font-size:13px;padding:8px 10px;border-radius:8px;border:1px solid #ccc;b
   <p style="font-size:11px;color:#888;margin-bottom:6px">Paste table — one row per line: <code>01AUG 30 25</code></p>
   <textarea id="paste-area" placeholder="01AUG 30 25&#10;02AUG 31 20&#10;..."></textarea>
   <div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap">
-    <button class="action-btn" onclick="loadTable()">Load Pasted Table</button>
-    <button id="btn-default" class="load-btn" onclick="loadDefault()">
-      <div style="font-weight:700;font-size:13px">Load Last Table</div>
-      <div id="btn-sub" style="font-size:10px;opacity:.8">Tap to reload previous table</div>
-    </button>
+    <button class="action-btn primary-btn" onclick="loadTable()" style="width:100%">Load Table</button>
   </div>
+  <p id="load-status" style="font-size:11px;color:#888;margin-top:6px"></p>
 </div>
 
 <div id="main" style="display:none">
@@ -245,15 +239,7 @@ function isAPD(label,baseYear){
   return false;
 }
 
-// ─── DEFAULT DATA ────────────────────────────────────────────────
-const DEFAULT=[
-  "01AUG 30 25","02AUG 31 20","03AUG 26 17","04AUG 18 16","05AUG 19 18",
-  "06AUG 20 15","07AUG 22 16","08AUG 23 21","09AUG 25 14","10AUG 20 16",
-  "11AUG 18 16","12AUG 17 18","13AUG 18 16","14AUG 17 13","15AUG 16 14",
-  "16AUG 18 13","17AUG 19 17","18AUG 19 17","19AUG 17 12","20AUG 17 15",
-  "21AUG 18 14","22AUG 19 20","23AUG 20 21","24AUG 21 21","25AUG 19 17",
-  "26AUG 16 12","27AUG 19 17","28AUG 22 18","29AUG 18 14","30AUG 20 20"
-];
+
 
 function parseLines(lines){
   return lines.map(l=>{
@@ -265,37 +251,25 @@ function parseLines(lines){
 }
 
 // ─── LOAD ────────────────────────────────────────────────────────
-function loadDefault(){reserveData=parseLines(DEFAULT);loadTime=new Date();finishLoad();}
 function loadTable(){
   const lines=document.getElementById('paste-area').value.split('\n').filter(l=>l.trim());
   reserveData=parseLines(lines);
   if(!reserveData.length){alert('Could not parse rows.\nUse format: 01AUG 30 25');return;}
-  loadTime=new Date();finishLoad();
+  loadTime=new Date();
+  finishLoad();
 }
 
 function finishLoad(){
   covMap={};dropSel.clear();addSel.clear();scanDropSel.clear();
   reserveData.forEach(r=>{covMap[r.date]=r.avail-r.reqd;});
   document.getElementById('main').style.display='block';
-  updateBtnLabel();
-  if(window._tsInterval)clearInterval(window._tsInterval);
-  window._tsInterval=setInterval(updateBtnLabel,60000);
+  const hhmm=loadTime.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('load-status').textContent=`✅ ${reserveData.length} days loaded at ${hhmm}`;
   buildCovTable();
   buildCheckerGrids();
   buildScannerGrid();
   evaluate();
   document.getElementById('scan-results').innerHTML='';
-}
-
-function updateBtnLabel(){
-  if(!loadTime)return;
-  const btn=document.getElementById('btn-default'),sub=document.getElementById('btn-sub');
-  const now=new Date(),diff=now-loadTime,mins=Math.floor(diff/60000),hrs=Math.floor(mins/60);
-  const hhmm=loadTime.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  const ago=mins<1?'just now':mins<60?`${mins}m ago`:`${hrs}h ${mins%60}m ago`;
-  const stale=hrs>=2;
-  btn.className='load-btn '+(stale?'stale':'fresh');
-  sub.textContent=`Loaded ${hhmm} · ${ago}${stale?' — refresh recommended':''}`;
 }
 
 // ─── COVERAGE TABLE ──────────────────────────────────────────────
