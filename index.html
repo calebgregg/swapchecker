@@ -4,215 +4,242 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>PCS Swap Tool</title>
+<title>✈️ PCS Swap Tool</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;max-width:100%;overflow-x:hidden}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f0f0;color:#222;padding:10px;font-size:14px}
-
-/* ── TYPOGRAPHY ── */
-h1{font-size:17px;font-weight:700;color:#1a73e8;margin-bottom:2px}
-.app-sub{font-size:11px;color:#888;margin-bottom:10px}
-.sec-label{font-size:11px;font-weight:700;color:#888;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
-.tab-sub{font-size:12px;color:#666;margin-bottom:10px;line-height:1.4;padding:8px 10px;background:#e8f0fe;border-radius:8px;border-left:3px solid #1a73e8}
-
-/* ── CARDS ── */
-.card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:12px 14px;margin-bottom:10px}
-
-/* ── TABS ── */
-.tab-bar{display:flex;gap:6px;margin-bottom:10px}
-.tab-btn{flex:1;padding:9px 4px;font-size:12px;font-weight:600;border-radius:8px;border:1.5px solid #ccc;background:#f0f0f0;color:#666;cursor:pointer;text-align:center;min-height:44px}
-.tab-btn.active{background:#1a73e8;border-color:#1558b0;color:#fff}
-
-/* ── BUTTONS ── */
-.action-btn{font-size:13px;padding:10px 16px;border-radius:8px;border:1px solid #ccc;background:#f0f0f0;color:#333;cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
-.primary-btn{background:#1a73e8;border-color:#1558b0;color:#fff;font-weight:600}
-.success-btn{background:#639922;border-color:#27500A;color:#fff;font-weight:600}
-.danger-btn{background:#E24B4A;border-color:#A32D2D;color:#fff;font-weight:600}
-.ghost-btn{background:transparent;border-color:#1a73e8;color:#1a73e8;font-weight:600}
-
-/* ── FORMS ── */
-textarea{width:100%;font-size:12px;font-family:monospace;min-height:80px;resize:vertical;border-radius:8px;border:1px solid #ccc;padding:8px;background:#fff;-webkit-appearance:none}
-select{font-size:13px;padding:8px 10px;border-radius:8px;border:1px solid #ccc;background:#fff;color:#333;width:100%;min-height:44px;-webkit-appearance:auto}
-
-/* ── COVERAGE TABLE ── */
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:#222;padding:10px;font-size:14px}
+.app-title{font-size:20px;font-weight:800;color:#1a73e8;margin-bottom:2px}
+.app-sub{font-size:12px;color:#888;margin-bottom:12px}
+.card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.step-label{font-size:13px;font-weight:800;color:#1a73e8;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.step-num{background:#1a73e8;color:#fff;font-size:11px;font-weight:800;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-desc{font-size:12px;color:#777;margin-bottom:10px;line-height:1.4}
+.section-title{font-size:15px;font-weight:800;color:#333;margin-bottom:4px}
+.section-desc{font-size:12px;color:#777;margin-bottom:10px;line-height:1.4;padding:8px 10px;background:#f5f7ff;border-radius:8px;border-left:3px solid #1a73e8}
+.tab-bar{display:flex;gap:6px;margin-bottom:12px}
+.tab-btn{flex:1;padding:10px 4px;font-size:12px;font-weight:700;border-radius:10px;border:1.5px solid #ddd;background:#fff;color:#888;cursor:pointer;text-align:center;min-height:44px;transition:all .15s}
+.tab-btn.active{background:#1a73e8;border-color:#1558b0;color:#fff;box-shadow:0 2px 6px rgba(26,115,232,.3)}
+.action-btn{font-size:13px;padding:10px 16px;border-radius:10px;border:1.5px solid #ddd;background:#f5f5f5;color:#333;cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:600;transition:all .12s}
+.primary-btn{background:#1a73e8;border-color:#1558b0;color:#fff}
+.success-btn{background:#4a8c1c;border-color:#2d6010;color:#fff}
+.danger-btn{background:#d94040;border-color:#a32d2d;color:#fff}
+.ghost-btn{background:transparent;border-color:#1a73e8;color:#1a73e8}
+.warn-btn{background:#f5a623;border-color:#c47d0a;color:#fff}
+textarea{width:100%;font-size:12px;font-family:monospace;min-height:80px;resize:vertical;border-radius:10px;border:1.5px solid #ddd;padding:10px;background:#fafafa;-webkit-appearance:none}
+select{font-size:13px;padding:10px 12px;border-radius:10px;border:1.5px solid #ddd;background:#fff;color:#333;width:100%;min-height:44px;-webkit-appearance:auto;font-weight:600}
 table{border-collapse:collapse;width:100%}
-.cov-th{padding:4px 6px;border:1px solid #ddd;background:#f7f7f7;font-size:10px;font-weight:700;text-align:center;color:#666;white-space:nowrap}
-.cov-td{padding:3px 6px;border:1px solid #ddd;text-align:center;font-size:10px;white-space:nowrap}
+.cov-th{padding:4px 6px;border:1px solid #e0e0e0;background:#f5f7ff;font-size:10px;font-weight:700;text-align:center;color:#555;white-space:nowrap}
+.cov-td{padding:3px 6px;border:1px solid #e0e0e0;text-align:center;font-size:10px;white-space:nowrap}
 
 /* ── CALENDAR ── */
 .cal-wrap{width:100%}
-.cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px}
-.cal-dow{font-size:9px;font-weight:700;text-align:center;color:#888;padding:2px 0}
-.cal-dow.wknd{color:#BA7517}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-day{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:5px;border:1.5px solid #ccc;background:#e8e8e8;color:#333;cursor:pointer;padding:3px 1px;min-height:42px;font-size:10px;line-height:1.2;text-align:center;position:relative;transition:opacity .1s}
+.cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px}
+.cal-dow{font-size:9px;font-weight:800;text-align:center;color:#999;padding:3px 0}
+.cal-dow.wknd{color:#c07000}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+/* Individual day cells (non-trip days) */
+.cal-day{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;border:1.5px solid #ddd;background:#f5f5f5;color:#333;cursor:pointer;padding:3px 1px;min-height:46px;font-size:10px;line-height:1.2;text-align:center;position:relative;user-select:none}
 .cal-day .dl{font-weight:700;font-size:10px}
-.cal-day .dd{font-size:8px;opacity:.8}
-.cal-day .wi{font-size:7px;font-weight:700;position:absolute;bottom:2px;left:0;right:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 1px}
-.cal-day.wknd-day{background:#FFF3E0;border-color:#BA7517;color:#5D2E00}
-.cal-day.sel-drop{background:#E24B4A;border-color:#A32D2D;color:#fff}
-.cal-day.sel-add{background:#639922;border-color:#27500A;color:#fff}
-.cal-day.overlap{background:#BA7517;border-color:#633806;color:#fff;text-decoration:line-through}
-.cal-day.avoided{background:#E24B4A;border-color:#A32D2D;color:#fff}
-.cal-day.working{border:2px solid #1a73e8;background:#e8f0fe;color:#1558b0}
-.cal-day.working.wknd-day{background:#dce8fd}
-.cal-day.working.sel-drop{background:#E24B4A;border-color:#A32D2D;color:#fff}
-.cal-day.working.sel-add{background:#639922;border-color:#27500A;color:#fff}
-.cal-day.scanner-blocked{opacity:.35;cursor:not-allowed;pointer-events:none}
+.cal-day .dd{font-size:8px;color:#888}
+.cal-day.wknd-day{background:#fff8ee;border-color:#e8b86d;color:#7a4800}
+.cal-day.wknd-day .dd{color:#c07000}
+.cal-day.sel-drop{background:rgba(220,60,50,.18);border-color:rgba(200,40,40,.6);color:#7a1010}
+.cal-day.sel-drop .dd{color:#a03030}
+.cal-day.sel-add{background:rgba(60,140,40,.16);border-color:rgba(50,130,30,.55);color:#1a5c08}
+.cal-day.sel-add .dd{color:#2d7a10}
+.cal-day.overlap{background:rgba(185,115,0,.18);border-color:rgba(185,115,0,.55);color:#6b3f00;text-decoration:line-through}
+.cal-day.avoided{background:rgba(220,60,50,.18);border-color:rgba(200,40,40,.6);color:#7a1010}
 .cal-day.empty{background:transparent;border-color:transparent;cursor:default;pointer-events:none}
+/* Adjacent bid period days */
+.cal-day.adj-period{background:#f8f0ff;border-color:#c9a0e8;color:#5a2d82;opacity:.85}
+.cal-day.adj-period .dd{color:#8a4db8}
+
+/* ── TRIP BLOCKS (replaces individual working-day cells) ── */
+/* A trip block spans multiple columns as a CSS grid span */
+.trip-block{border-radius:8px;padding:4px 6px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;user-select:none;min-height:46px;position:relative;overflow:hidden;border:2px solid #1a73e8;background:rgba(26,115,232,.13);color:#1558b0}
+.trip-block .tb-name{font-size:10px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trip-block .tb-dates{font-size:8px;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trip-block .tb-days{font-size:8px;opacity:.7}
+.trip-block.sel-drop{background:rgba(220,60,50,.22);border-color:rgba(200,40,40,.7);color:#7a1010}
+.trip-block.avoided-block{background:rgba(220,60,50,.18);border-color:rgba(200,40,40,.6);color:#7a1010}
+/* Continuation cell (days 2+ of a multi-day trip that wraps) */
+.trip-cont{border-radius:8px;padding:3px 2px;min-height:46px;display:flex;align-items:center;justify-content:center;border:2px solid #1a73e8;background:rgba(26,115,232,.1);color:#1a73e8;cursor:pointer;user-select:none;font-size:8px;font-weight:700;opacity:.7}
+.trip-cont.sel-drop{background:rgba(220,60,50,.15);border-color:rgba(200,40,40,.6);color:#7a1010}
+.trip-cont.avoided-block{background:rgba(220,60,50,.12);border-color:rgba(200,40,40,.5);color:#7a1010}
+
+/* ── POPUP ── */
+.popup-menu{display:none;position:fixed;z-index:900;background:#fff;border:1.5px solid #1a73e8;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.22);padding:8px;min-width:190px}
+.popup-menu p{font-size:11px;font-weight:800;color:#1a73e8;padding:2px 6px 6px;border-bottom:1px solid #e8f0fe;margin-bottom:4px}
+.popup-menu button{display:block;width:100%;padding:9px 10px;font-size:13px;font-weight:600;border:none;background:none;cursor:pointer;border-radius:8px;text-align:left;color:#1558b0}
+.popup-menu button:hover{background:#e8f0fe}
+.popup-menu button.cancel{color:#999;font-size:12px;font-weight:400}
+.popup-backdrop{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:899}
 
 /* ── RESULT BOXES ── */
 .result-box{border-radius:10px;padding:12px 14px;border:1px solid #ddd;background:#f7f7f7}
-.result-ok{background:#EAF3DE;border-color:#639922}
-.result-no{background:#FCEBEB;border-color:#E24B4A}
-.result-title{font-size:16px;font-weight:700;margin-bottom:4px}
-.result-ok .result-title{color:#27500A}
-.result-no .result-title{color:#791F1F}
-.result-sub{font-size:12px}
-.result-ok .result-sub{color:#3B6D11}
-.result-no .result-sub{color:#A32D2D}
-
-.sum-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
-.sum-card{background:#f0f0f0;border-radius:6px;padding:7px 8px}
-.sum-label{font-size:10px;color:#888;margin-bottom:2px}
-.sum-val{font-size:14px;font-weight:700}
-
-/* ── TAGS ── */
-.tag{display:inline-block;font-size:11px;padding:3px 7px;border-radius:5px;margin:2px;border:1px solid #ccc}
+.result-ok{background:#eef7e6;border-color:#4a8c1c}
+.result-no{background:#fdf0f0;border-color:#d94040}
+.result-title{font-size:17px;font-weight:800;margin-bottom:4px}
+.result-ok .result-title{color:#2a5c08}
+.result-no .result-title{color:#7a1010}
+.result-sub{font-size:13px}
+.result-ok .result-sub{color:#3a7010}
+.result-no .result-sub{color:#a03030}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.sum-card{background:#f0f2f5;border-radius:8px;padding:8px 10px}
+.sum-label{font-size:10px;color:#888;margin-bottom:2px;font-weight:600;text-transform:uppercase}
+.sum-val{font-size:15px;font-weight:800}
+.tag{display:inline-block;font-size:11px;padding:3px 8px;border-radius:6px;margin:2px;border:1px solid #ddd}
 .badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;margin-left:4px;vertical-align:middle}
-.badge-hol{background:#FAEEDA;color:#854F0B;border:1px solid #BA7517}
+.badge-hol{background:#fff3d6;color:#854F0B;border:1px solid #e8b86d}
+.scan-result{border-radius:10px;padding:12px 14px;margin-bottom:8px;border:1px solid #c3e0a0;background:#eef7e6}
+.trip-card{background:#e8f0fe;border:1.5px solid #a8c4f8;border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.trip-label{font-size:13px;font-weight:700;color:#1558b0}
+.trip-dates{font-size:11px;color:#666;margin-top:2px}
+.saved-banner{background:#eef7e6;border:1.5px solid #4a8c1c;border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.sched-section{border:1.5px solid #e0e0e0;border-radius:12px;background:#fff;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}
+.sched-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+.sched-body{padding:0 16px 14px;border-top:1px solid #f0f0f0;display:none}
 
-/* ── SCAN RESULTS ── */
-.scan-result{border-radius:8px;padding:10px 12px;margin-bottom:8px;border:1px solid #ddd;background:#f9f9f9}
-.scan-ok{background:#EAF3DE;border-color:#639922}
+/* Adjacent month table rows */
+.adj-row td,.adj-row th{background:#f8f0ff !important;color:#5a2d82 !important;opacity:.85}
 
-/* ── MODAL ── */
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);z-index:1000;display:flex;align-items:flex-start;justify-content:center;padding:20px 10px;overflow-y:auto}
-.modal-box{background:#fff;border-radius:14px;padding:20px;width:100%;max-width:480px;margin:auto}
-.modal-title{font-size:16px;font-weight:700;margin-bottom:6px;color:#1a73e8}
-.modal-sub{font-size:13px;color:#666;margin-bottom:16px;line-height:1.5}
-
-/* ── SCHEDULE TRIP CARD ── */
-.trip-card{background:#e8f0fe;border:1px solid #1a73e8;border-radius:8px;padding:8px 10px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.trip-label{font-size:13px;font-weight:600;color:#1558b0}
-.trip-dates{font-size:11px;color:#555}
-
-/* ── SAVED TABLE BANNER ── */
-.saved-banner{background:#EAF3DE;border:1px solid #639922;border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-
-/* ── RESPONSIVE ── */
 @media(min-width:600px){
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .grid-2 .card{margin-bottom:0}
-  .cal-day{min-height:50px;font-size:11px}
-  .cal-day .dl{font-size:11px}
-  .cal-day .dd{font-size:9px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .grid-2>.card{margin-bottom:0}
+  .cal-day{min-height:52px}.cal-day .dl{font-size:11px}.cal-day .dd{font-size:9px}
+  .trip-block{min-height:52px}.trip-cont{min-height:52px}
 }
 @media(max-width:599px){
   .grid-2{display:flex;flex-direction:column;gap:10px}
-  .grid-2 .card{margin-bottom:0}
+  .grid-2>.card{margin-bottom:0}
 }
 </style>
 </head>
 <body>
 
-<h1>✈️ PCS Swap Tool</h1>
-<p class="app-sub">Reserve coverage swap evaluator</p>
+<div class="app-title">✈️ PCS Swap Tool</div>
+<div class="app-sub">Reserve coverage swap evaluator for PCS Swap with Pot</div>
 
-<!-- ── SCHEDULE MODAL ── -->
-<div class="modal-overlay" id="schedule-modal" style="display:none">
-  <div class="modal-box">
-    <p class="modal-title">👋 Welcome — Enter Your Schedule</p>
-    <p class="modal-sub">Add your current trips so the tool can highlight working days and filter out conflicts. You can skip this and add your schedule later.</p>
-    <div id="modal-trip-list" style="margin-bottom:12px"></div>
-    <div class="card" style="margin-bottom:10px">
-      <p class="sec-label">Add a trip</p>
-      <p style="font-size:11px;color:#888;margin-bottom:6px">Select the first day of the trip</p>
-      <div id="modal-cal" style="margin-bottom:10px"></div>
-      <p style="font-size:11px;color:#888;margin-bottom:4px;margin-top:6px">Trip length</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px" id="len-btns">
-        <button class="action-btn" onclick="setLen(1)" id="lb1" style="min-width:44px">1d</button>
-        <button class="action-btn" onclick="setLen(2)" id="lb2" style="min-width:44px">2d</button>
-        <button class="action-btn" onclick="setLen(3)" id="lb3" style="min-width:44px">3d</button>
-        <button class="action-btn" onclick="setLen(4)" id="lb4" style="min-width:44px">4d</button>
-        <button class="action-btn" onclick="setLen(5)" id="lb5" style="min-width:44px">5d</button>
-      </div>
-      <button class="action-btn success-btn" onclick="addModalTrip()" style="width:100%">＋ Add Trip</button>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="action-btn primary-btn" onclick="saveSchedule()" style="flex:1">Save Schedule &amp; Continue</button>
-      <button class="action-btn ghost-btn" onclick="skipSchedule()" style="flex:1">Skip for Now</button>
-    </div>
-  </div>
+<!-- ══ POPUP ══ -->
+<div class="popup-menu" id="trip-popup">
+  <p id="popup-trip-name">Trip</p>
+  <button id="popup-sel-btn" onclick="popupSelectTrip()">Select Entire Rotation</button>
+  <button class="cancel" onclick="closePopup()">Cancel</button>
 </div>
+<div class="popup-backdrop" id="popup-backdrop" onclick="closePopup()"></div>
 
-<!-- ── LOAD TABLE ── -->
-<div class="card" id="load-card">
-  <p class="sec-label">Reserve Table</p>
-  <p style="font-size:11px;color:#888;margin-bottom:6px">Paste table directly from iCrew</p>
+<!-- ══ RESERVE TABLE ══ -->
+<div class="card" id="table-card">
+  <div class="section-title">Reserve Table</div>
+  <!-- Saved banner -->
   <div id="saved-table-banner" style="display:none" class="saved-banner">
     <div>
-      <div style="font-size:13px;font-weight:600;color:#27500A">📋 Saved table available</div>
-      <div id="saved-table-ts" style="font-size:11px;color:#3B6D11"></div>
+      <div style="font-size:13px;font-weight:700;color:#2a5c08">📋 Saved table available</div>
+      <div id="saved-table-ts" style="font-size:11px;color:#3a7010"></div>
     </div>
     <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <button class="action-btn success-btn" onclick="loadSavedTable()" style="font-size:12px;padding:7px 12px">Use Saved</button>
-      <button class="action-btn ghost-btn" onclick="showPasteArea()" style="font-size:12px;padding:7px 12px">Update</button>
+      <button class="action-btn success-btn" onclick="loadSavedTable()" style="font-size:12px;padding:7px 14px">Use Saved Table</button>
+      <button class="action-btn ghost-btn" onclick="showUpdatePaste()" style="font-size:12px;padding:7px 14px">Update Table</button>
     </div>
   </div>
-  <div id="paste-section">
-    <textarea id="paste-area" placeholder="Paste iCrew reserve table here..."></textarea>
-    <div style="margin-top:8px">
-      <button class="action-btn primary-btn" onclick="loadTable()" style="width:100%">Load Table</button>
+  <!-- First-time paste -->
+  <div id="paste-first">
+    <textarea id="paste-area-first" placeholder="Paste Reserve Levels Table directly from iCrew..."></textarea>
+    <button class="action-btn primary-btn" onclick="loadTableFirst()" style="width:100%;margin-top:8px">Load Table</button>
+  </div>
+  <!-- Update paste (hidden, blank each time) -->
+  <div id="paste-update" style="display:none">
+    <textarea id="paste-area-update" placeholder="Paste Reserve Levels Table directly from iCrew..."></textarea>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button class="action-btn primary-btn" onclick="loadTableUpdate()" style="flex:1">Load Table</button>
+      <button class="action-btn ghost-btn" onclick="cancelUpdate()" style="flex:1">Cancel</button>
+    </div>
+  </div>
+  <!-- Adjacent month tables -->
+  <div id="adj-section" style="display:none;margin-top:10px;border-top:1px solid #eee;padding-top:10px">
+    <p style="font-size:12px;font-weight:700;color:#555;margin-bottom:6px">Adjacent Bid Period Levels <span style="font-weight:400;color:#888">(optional — for cross-period swaps only)</span></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+      <button class="action-btn" onclick="toggleAdjPaste('prev')" id="btn-prev-adj" style="font-size:12px;flex:1">＋ Previous Month</button>
+      <button class="action-btn" onclick="toggleAdjPaste('next')" id="btn-next-adj" style="font-size:12px;flex:1">＋ Next Month</button>
+    </div>
+    <div id="prev-adj-paste" style="display:none;margin-bottom:8px">
+      <textarea id="paste-prev" placeholder="Paste previous bid period table..."></textarea>
+      <button class="action-btn success-btn" onclick="loadAdjTable('prev')" style="width:100%;margin-top:6px;font-size:12px">Load Previous Month</button>
+    </div>
+    <div id="next-adj-paste" style="display:none">
+      <textarea id="paste-next" placeholder="Paste next bid period table..."></textarea>
+      <button class="action-btn success-btn" onclick="loadAdjTable('next')" style="width:100%;margin-top:6px;font-size:12px">Load Next Month</button>
     </div>
   </div>
   <p id="load-status" style="font-size:11px;color:#888;margin-top:6px"></p>
 </div>
 
-<div id="main" style="display:none">
-
-<!-- ── COVERAGE TABLE ── -->
-<div class="card">
-  <p class="sec-label">Reserve Coverage</p>
-  <div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table id="cov-table"></table></div>
-</div>
-
-<!-- ── SCHEDULE STRIP ── -->
-<div class="card" id="schedule-strip" style="display:none">
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
-    <div>
-      <p class="sec-label" style="margin-bottom:2px">My Schedule</p>
-      <div id="strip-trips" style="font-size:12px;color:#1558b0"></div>
+<!-- ══ MY SCHEDULE (below reserve table, collapses after save) ══ -->
+<div class="sched-section" id="sched-section">
+  <div class="sched-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:18px">🗓</span>
+      <div>
+        <div style="font-size:14px;font-weight:700;color:#333">My Schedule</div>
+        <div id="sched-sub" style="font-size:11px;color:#888">Add your current trips</div>
+      </div>
     </div>
-    <button class="action-btn ghost-btn" onclick="openScheduleEditor()" style="font-size:12px;padding:6px 12px">Edit</button>
+    <button class="action-btn primary-btn" id="sched-toggle-btn" onclick="toggleSchedBody()" style="font-size:12px;padding:7px 14px">Add Schedule</button>
+  </div>
+  <div class="sched-body" id="sched-body">
+    <div id="schedule-list" style="margin-bottom:10px"></div>
+    <div style="border-top:1px solid #eee;padding-top:10px">
+      <p style="font-size:13px;font-weight:700;color:#333;margin-bottom:4px">Add a Trip</p>
+      <p style="font-size:12px;color:#888;margin-bottom:8px">Select the first day on the calendar, then choose trip length</p>
+      <div id="sched-cal-placeholder" style="font-size:12px;color:#aaa;padding:12px 0;text-align:center;display:none">Load the reserve table first to see the calendar.</div>
+      <div class="cal-wrap"><div id="sched-add-cal"></div></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0">
+        <button class="action-btn" onclick="setSchedLen(1)" id="slb1" style="min-width:48px">1d</button>
+        <button class="action-btn" onclick="setSchedLen(2)" id="slb2" style="min-width:48px">2d</button>
+        <button class="action-btn" onclick="setSchedLen(3)" id="slb3" style="min-width:48px">3d</button>
+        <button class="action-btn" onclick="setSchedLen(4)" id="slb4" style="min-width:48px">4d</button>
+        <button class="action-btn" onclick="setSchedLen(5)" id="slb5" style="min-width:48px">5d</button>
+      </div>
+      <button class="action-btn success-btn" onclick="addSchedTrip()" style="width:100%;margin-bottom:8px">＋ Add Trip</button>
+      <button class="action-btn primary-btn" onclick="saveSchedAndCollapse()" style="width:100%">✓ Save Schedule</button>
+    </div>
   </div>
 </div>
 
-<!-- ── TABS ── -->
+<div id="main" style="display:none">
+
+<!-- ══ COVERAGE TABLE ══ -->
+<div class="card">
+  <div class="section-title" style="margin-bottom:8px">Reserve Coverage</div>
+  <div style="overflow-x:auto;-webkit-overflow-scrolling:touch"><table id="cov-table"></table></div>
+</div>
+
+<!-- ══ TABS ══ -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab('checker')" id="tab-checker">Will it Swap</button>
   <button class="tab-btn" onclick="switchTab('scanner')" id="tab-scanner">Trade Finder</button>
-  <button class="tab-btn" onclick="switchTab('schedule')" id="tab-schedule">My Schedule</button>
 </div>
 
-<!-- ════════════════════ WILL IT SWAP ════════════════════ -->
+<!-- ════ WILL IT SWAP ════ -->
 <div id="pane-checker">
-  <p class="tab-sub">Check specific calendar days to see if a PCS Swap with Pot request will be approved based on current reserve coverage.</p>
+  <div class="section-desc">Check specific calendar days to see if a PCS Swap with Pot request will be approved based on current reserve coverage.</div>
   <div class="grid-2">
     <div class="card">
-      <p class="sec-label" style="color:#A32D2D">▼ Days to Drop</p>
+      <div class="step-label"><span class="step-num">1</span>Days to Drop</div>
+      <div class="step-desc">Tap days or a trip block to drop. Working days shown in blue.</div>
       <div class="cal-wrap"><div id="drop-cal"></div></div>
     </div>
     <div class="card">
-      <p class="sec-label" style="color:#27500A">▲ Days to Add</p>
+      <div class="step-label"><span class="step-num">2</span>Days to Add</div>
+      <div class="step-desc">Tap individual days you want to pick up.</div>
       <div class="cal-wrap"><div id="add-cal"></div></div>
     </div>
   </div>
   <div class="card">
-    <p class="sec-label">Breakdown</p>
-    <div id="breakdown" style="font-size:12px;color:#888">Select days above.</div>
+    <div class="step-label" style="margin-bottom:8px"><span class="step-num">3</span>Breakdown</div>
+    <div id="breakdown" style="font-size:12px;color:#888">Select days above to see breakdown.</div>
     <div class="sum-grid" id="sum-grid" style="display:none">
       <div class="sum-card"><p class="sum-label">Drop neg sum</p><p class="sum-val" id="s-drop">—</p></div>
       <div class="sum-card"><p class="sum-label">Add neg sum</p><p class="sum-val" id="s-add">—</p></div>
@@ -220,131 +247,143 @@ table{border-collapse:collapse;width:100%}
     </div>
   </div>
   <div class="card">
-    <p class="sec-label">Verdict</p>
+    <div class="step-label" style="margin-bottom:8px"><span class="step-num">4</span>Verdict</div>
     <div id="result-box" class="result-box">
-      <p class="result-title" id="result-title" style="color:#888">Awaiting input</p>
-      <p class="result-sub" id="result-sub" style="color:#888">Select days to evaluate</p>
+      <p class="result-title" id="result-title" style="color:#999">Awaiting input</p>
+      <p class="result-sub" id="result-sub" style="color:#aaa">Select days to evaluate</p>
     </div>
-    <button class="action-btn" onclick="clearChecker()" style="margin-top:8px;width:100%">Clear Selection</button>
+    <button class="action-btn" onclick="clearChecker()" style="margin-top:10px;width:100%">Clear Selection</button>
   </div>
 </div>
 
-<!-- ════════════════════ TRADE FINDER ════════════════════ -->
+<!-- ════ TRADE FINDER ════ -->
 <div id="pane-scanner" style="display:none">
-  <p class="tab-sub">Find available trips to pick up and reduce your total days worked this bid period.</p>
-
+  <div class="section-desc">Find available trips to pick up and reduce your total days worked this bid period.</div>
   <div class="card">
-    <p class="sec-label">1. Select Your Drop Days</p>
+    <div class="step-label"><span class="step-num">1</span>Select Your Drop Days</div>
+    <div class="step-desc">Tap a trip block or individual days to drop. Selected drop days are automatically freed from the avoid list.</div>
     <div class="cal-wrap"><div id="scan-drop-cal"></div></div>
-    <div id="scan-drop-summary" style="font-size:12px;color:#888;margin-top:6px">No days selected.</div>
+    <div id="scan-drop-summary" style="font-size:12px;color:#888;margin-top:8px;font-weight:600">No days selected.</div>
   </div>
-
   <div class="card">
-    <p class="sec-label">2. Scanner Mode</p>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <label style="display:flex;align-items:center;gap:8px;font-size:13px;min-height:44px">
-        <input type="radio" name="scan-mode" value="single" checked onchange="updateScannerUI()" style="width:18px;height:18px">
-        Single trip — one consecutive trip up to same length as my drop
+    <div class="step-label"><span class="step-num">2</span>Scanner Mode</div>
+    <div class="step-desc">Single trip or combination of shorter trips.</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;min-height:44px;cursor:pointer">
+        <input type="radio" name="scan-mode" value="single" checked onchange="updateScannerUI()" style="width:18px;height:18px;margin-top:2px;flex-shrink:0">
+        <div><div style="font-weight:700">Single Trip</div><div style="font-size:11px;color:#888">One consecutive trip up to same length as your drop</div></div>
       </label>
-      <label style="display:flex;align-items:center;gap:8px;font-size:13px;min-height:44px">
-        <input type="radio" name="scan-mode" value="combo" onchange="updateScannerUI()">
-        Combination — 2–3 trips totaling up to same days as my drop
+      <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;min-height:44px;cursor:pointer">
+        <input type="radio" name="scan-mode" value="combo" onchange="updateScannerUI()" style="width:18px;height:18px;margin-top:2px;flex-shrink:0">
+        <div><div style="font-weight:700">Combination</div><div style="font-size:11px;color:#888">2–3 trips totaling up to same days as your drop</div></div>
       </label>
     </div>
   </div>
-
   <div class="card" id="single-options">
-    <p class="sec-label">3. Target Trip Length</p>
+    <div class="step-label"><span class="step-num">3</span>Target Trip Length</div>
+    <div class="step-desc">How many days for your replacement trip?</div>
     <select id="single-length"><option value="0">— Select drop days first —</option></select>
   </div>
-
   <div class="card" id="combo-options" style="display:none">
-    <p class="sec-label">3. Combo Options</p>
-    <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="step-label"><span class="step-num">3</span>Combination Options</div>
+    <div class="step-desc">Set limits on trips and total days to pick up.</div>
+    <div style="display:flex;flex-direction:column;gap:12px">
       <div>
-        <p style="font-size:11px;color:#888;margin-bottom:4px;font-weight:700">MAX TRIPS TO PICK UP</p>
-        <select id="combo-max">
-          <option value="2">Up to 2 trips</option>
-          <option value="3" selected>Up to 3 trips</option>
-        </select>
+        <p style="font-size:12px;font-weight:700;color:#555;margin-bottom:6px">MAX TRIPS TO PICK UP</p>
+        <select id="combo-max"><option value="2">Up to 2 trips</option><option value="3" selected>Up to 3 trips</option></select>
       </div>
       <div>
-        <p style="font-size:11px;color:#888;margin-bottom:4px;font-weight:700">MAX TOTAL DAYS TO PICK UP</p>
+        <p style="font-size:12px;font-weight:700;color:#555;margin-bottom:6px">MAX TOTAL DAYS TO PICK UP</p>
         <select id="combo-max-days"><option value="0">— Select drop days first —</option></select>
       </div>
     </div>
   </div>
-
   <div class="card">
-    <p class="sec-label">4. Days to Avoid <span style="font-weight:400;font-size:11px;color:#aaa">(optional)</span></p>
-    <div style="margin-bottom:8px">
-      <button class="action-btn" id="avoid-wknd-btn" onclick="toggleAvoidWeekends()" style="width:100%;margin-bottom:8px">
-        🗓 Avoid All Weekends
-      </button>
-    </div>
+    <div class="step-label"><span class="step-num">4</span>Days to Avoid</div>
+    <div class="step-desc">Your working days (except drop trip) are pre-selected. Toggle any day. Use the button to avoid all weekends.</div>
+    <button class="action-btn" id="avoid-wknd-btn" onclick="toggleAvoidWeekends()" style="width:100%;margin-bottom:10px">🗓 Avoid All Weekends</button>
     <div class="cal-wrap"><div id="avoid-cal"></div></div>
   </div>
-
-  <button class="action-btn primary-btn" onclick="runScanner()" style="width:100%;margin-bottom:10px">🔍 Scan for Valid Trades</button>
+  <button class="action-btn primary-btn" onclick="runScanner()" style="width:100%;margin-bottom:10px;font-size:14px;padding:14px">🔍 Scan for Valid Trades</button>
   <div id="scan-results"></div>
 </div>
 
-<!-- ════════════════════ MY SCHEDULE ════════════════════ -->
-<div id="pane-schedule" style="display:none">
-  <p class="tab-sub">Manage your current trip schedule. Working days are highlighted across all calendars and blocked from Trade Finder results.</p>
-  <div class="card">
-    <p class="sec-label">Current Trips</p>
-    <div id="schedule-list" style="margin-bottom:10px"></div>
-    <div style="border-top:1px solid #eee;padding-top:10px">
-      <p class="sec-label">Add a Trip</p>
-      <p style="font-size:11px;color:#888;margin-bottom:6px">Select the first day of the trip</p>
-      <div class="cal-wrap"><div id="sched-add-cal"></div></div>
-      <p style="font-size:11px;color:#888;margin:8px 0 4px">Trip length</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px" id="sched-len-btns">
-        <button class="action-btn" onclick="setSchedLen(1)" id="slb1" style="min-width:44px">1d</button>
-        <button class="action-btn" onclick="setSchedLen(2)" id="slb2" style="min-width:44px">2d</button>
-        <button class="action-btn" onclick="setSchedLen(3)" id="slb3" style="min-width:44px">3d</button>
-        <button class="action-btn" onclick="setSchedLen(4)" id="slb4" style="min-width:44px">4d</button>
-        <button class="action-btn" onclick="setSchedLen(5)" id="slb5" style="min-width:44px">5d</button>
-      </div>
-      <button class="action-btn success-btn" onclick="addSchedTrip()" style="width:100%">＋ Add Trip</button>
-    </div>
-  </div>
-</div>
-
-</div><!-- end #main -->
+</div><!-- #main -->
 
 <script>
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 // STATE
-// ══════════════════════════════════════════════════════
-let reserveData=[],covMap={},baseYear=new Date().getFullYear(),loadTime=null;
-let myTrips=[]; // [{name,days:[dates]}]
-let workingDays=new Set(); // flat set of all working dates
-
+// ══════════════════════════════════════════════════
+let reserveData=[]; // current bid period
+let adjPrevData=[];  // previous 4 days
+let adjNextData=[];  // next 4 days
+let allDates=[];     // combined: prev4 + current + next4
+let covMap={};
+let baseYear=new Date().getFullYear();
+let loadTime=null;
+let myTrips=[];
 const dropSel=new Set(),addSel=new Set(),scanDropSel=new Set(),avoidSel=new Set();
-let modalStartDay=null,modalLen=1;
 let schedStartDay=null,schedLen=1;
 let avoidWeekendsActive=false;
+let popupMode=null,popupDay=null,popupTrip=null;
+let schedBodyOpen=false;
 
 const MONTH_MAP={JAN:0,FEB:1,MAR:2,APR:3,MAY:4,JUN:5,JUL:6,AUG:7,SEP:8,OCT:9,NOV:10,DEC:11};
 const MONTH_NAMES=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 const DOW=['SUN','MON','TUE','WED','THU','FRI','SAT'];
 
-// ══════════════════════════════════════════════════════
-// DATE UTILS
-// ══════════════════════════════════════════════════════
+// ── BID PERIODS (fixed annual) ──────────────────────
+const BID_PERIODS=[
+  {name:'January',   start:[1,1],  end:[1,30]},
+  {name:'February',  start:[1,31], end:[3,1]},
+  {name:'March',     start:[3,2],  end:[3,31]},
+  {name:'April',     start:[4,1],  end:[5,1]},
+  {name:'May',       start:[5,2],  end:[6,1]},
+  {name:'June',      start:[6,2],  end:[7,1]},
+  {name:'July',      start:[7,2],  end:[7,31]},
+  {name:'August',    start:[8,1],  end:[8,30]},
+  {name:'September', start:[8,31], end:[9,30]},
+  {name:'October',   start:[10,1], end:[10,31]},
+  {name:'November',  start:[11,1], end:[11,30]},
+  {name:'December',  start:[12,1], end:[12,31]},
+];
+
+function getBidPeriodForDate(label,yr){
+  const p=parseDate(label);if(!p)return null;
+  const d=new Date(yr,p.month,p.day);
+  for(const bp of BID_PERIODS){
+    const s=new Date(yr,bp.start[0]-1,bp.start[1]);
+    const e=new Date(yr,bp.end[0]-1,bp.end[1]);
+    if(d>=s&&d<=e)return bp;
+  }
+  return null;
+}
+
+function getCurrentBidPeriod(mainDates){
+  if(!mainDates||!mainDates.length)return null;
+  const mid=mainDates[Math.floor(mainDates.length/2)];
+  return getBidPeriodForDate(mid,baseYear);
+}
+
+// ── DATE UTILS ──────────────────────────────────────
 function parseDate(s){const m=s.match(/^(\d{2})([A-Z]{3})$/);return m?{day:parseInt(m[1]),month:MONTH_MAP[m[2]]}:null;}
 function toJsDate(label,yr){const p=parseDate(label);return p?new Date(yr||baseYear,p.month,p.day):null;}
 function getDOW(label){const d=toJsDate(label);return d?DOW[d.getDay()]:'???';}
 function isWeekend(label){const d=toJsDate(label);return d?d.getDay()===0||d.getDay()===6:false;}
 function getStartDOW(label){const d=toJsDate(label);return d?d.getDay():0;}
-function labelFromDate(d){return String(d.getDate()).padStart(2,'0')+MONTH_NAMES[d.getMonth()];}
+function labelFromJsDate(d){return String(d.getDate()).padStart(2,'0')+MONTH_NAMES[d.getMonth()];}
 function guessYear(labels){const now=new Date(),yr=now.getFullYear(),first=parseDate(labels[0]);if(!first)return yr;const d=new Date(yr,first.month,first.day);return d<new Date(now-90*864e5)?yr+1:yr;}
+function getWorkingDays(){const s=new Set();myTrips.forEach(t=>t.days.forEach(d=>s.add(d)));return s;}
+function sortTrips(){
+  myTrips.sort((a,b)=>{
+    const pa=parseDate(a.days[0]),pb=parseDate(b.days[0]);if(!pa||!pb)return 0;
+    const da=new Date(baseYear,pa.month,pa.day),db=new Date(baseYear,pb.month,pb.day);return da-db;
+  });
+}
+function isMainPeriod(label){return reserveData.some(r=>r.date===label);}
+function isAdjPeriod(label){return adjPrevData.some(r=>r.date===label)||adjNextData.some(r=>r.date===label);}
 
-// ══════════════════════════════════════════════════════
-// HOLIDAYS
-// ══════════════════════════════════════════════════════
+// ── HOLIDAYS ────────────────────────────────────────
 function getEaster(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31)-1,dy=(h+l-7*m+114)%31+1;return new Date(y,mo,dy);}
 function getSuperBowl(y){let d=new Date(y,1,1);while(d.getDay()!==0)d.setDate(d.getDate()+1);d.setDate(d.getDate()+7);return d;}
 function getMemorialDay(y){let d=new Date(y,4,31);while(d.getDay()!==1)d.setDate(d.getDate()-1);return d;}
@@ -353,218 +392,221 @@ function getThanksgiving(y){let d=new Date(y,10,1),c=0;while(c<4){if(d.getDay()=
 function getHolidays(y){const e=getEaster(y),gf=new Date(e);gf.setDate(e.getDate()-2);return[new Date(y,0,1),getSuperBowl(y),gf,e,getMemorialDay(y),new Date(y,6,4),getLaborDay(y),getThanksgiving(y),new Date(y,11,25)];}
 function isAPD(label){const p=parseDate(label);if(!p)return false;for(let yr=baseYear-1;yr<=baseYear+1;yr++){for(const h of getHolidays(yr)){const ws=new Date(h);ws.setDate(h.getDate()-2);const we=new Date(h);we.setDate(h.getDate()+1);const t=new Date(baseYear,p.month,p.day);if(t>=ws&&t<=we)return true;}}return false;}
 
-// ══════════════════════════════════════════════════════
-// LOCAL STORAGE
-// ══════════════════════════════════════════════════════
-function saveTripsToStorage(){try{localStorage.setItem('pcs_trips',JSON.stringify(myTrips));}catch(e){}}
-function loadTripsFromStorage(){try{const d=localStorage.getItem('pcs_trips');return d?JSON.parse(d):[];}catch(e){return[];}}
-function saveTableToStorage(raw){try{localStorage.setItem('pcs_table',raw);localStorage.setItem('pcs_table_ts',new Date().toISOString());}catch(e){}}
-function loadTableFromStorage(){try{return{raw:localStorage.getItem('pcs_table'),ts:localStorage.getItem('pcs_table_ts')};}catch(e){return{raw:null,ts:null};}}
+// ── LOCAL STORAGE ───────────────────────────────────
+function saveTrips(){try{localStorage.setItem('pcs_trips',JSON.stringify(myTrips));}catch(e){}}
+function loadTripsLS(){try{const d=localStorage.getItem('pcs_trips');return d?JSON.parse(d):[]; }catch(e){return[];}}
+function saveTableLS(raw,key){try{localStorage.setItem('pcs_table_'+key,raw);if(key==='main')localStorage.setItem('pcs_table_ts',new Date().toISOString());}catch(e){}}
+function loadTableLS(key){try{return localStorage.getItem('pcs_table_'+key);}catch(e){return null;}}
 
-// ══════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════
+// ── INIT ────────────────────────────────────────────
 window.addEventListener('load',()=>{
-  // Load saved trips
-  myTrips=loadTripsFromStorage();
-  rebuildWorkingDays();
-
-  // Check for saved table
-  const{raw,ts}=loadTableFromStorage();
+  myTrips=loadTripsLS();sortTrips();updateSchedSub();
+  const raw=loadTableLS('main');
+  const ts=localStorage.getItem('pcs_table_ts');
   if(raw&&ts){
     const saved=new Date(ts);
-    const hhmm=saved.toLocaleDateString([],{month:'short',day:'numeric'})+' '+saved.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-    document.getElementById('saved-table-ts').textContent=`Last updated: ${hhmm}`;
+    const label=saved.toLocaleDateString([],{month:'short',day:'numeric'})+' '+saved.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('saved-table-ts').textContent=`Last updated: ${label}`;
     document.getElementById('saved-table-banner').style.display='flex';
-    document.getElementById('paste-section').style.display='none';
+    document.getElementById('paste-first').style.display='none';
   }
-
-  // Show schedule modal if no trips saved and first time
-  const hasSeenModal=localStorage.getItem('pcs_seen_modal');
-  if(!hasSeenModal){
-    document.getElementById('schedule-modal').style.display='flex';
-  }
+  // Show sched cal placeholder if no table yet
+  updateSchedCalVisibility();
 });
 
-// ══════════════════════════════════════════════════════
-// SCHEDULE MODAL
-// ══════════════════════════════════════════════════════
-function openScheduleModal(){
-  modalStartDay=null;modalLen=1;
-  updateLenBtns('lb',modalLen);
-  document.getElementById('schedule-modal').style.display='flex';
-  renderModalTrips();
-  buildModalCal();
+function updateSchedCalVisibility(){
+  const ph=document.getElementById('sched-cal-placeholder');
+  const cal=document.getElementById('sched-add-cal');
+  if(!reserveData.length){if(ph)ph.style.display='block';if(cal)cal.style.display='none';}
+  else{if(ph)ph.style.display='none';if(cal)cal.style.display='block';}
 }
 
-function openScheduleEditor(){switchTab('schedule');}
-
-function saveSchedule(){
-  saveTripsToStorage();
-  rebuildWorkingDays();
-  localStorage.setItem('pcs_seen_modal','1');
-  document.getElementById('schedule-modal').style.display='none';
-  if(reserveData.length)refreshAllCals();
-  renderScheduleTab();
-  renderScheduleStrip();
+// ── ADJ TABLE TOGGLE ────────────────────────────────
+function toggleAdjPaste(which){
+  const id=which==='prev'?'prev-adj-paste':'next-adj-paste';
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='none'?'block':'none';
 }
 
-function skipSchedule(){
-  localStorage.setItem('pcs_seen_modal','1');
-  document.getElementById('schedule-modal').style.display='none';
+function loadAdjTable(which){
+  const raw=document.getElementById(which==='prev'?'paste-prev':'paste-next').value;
+  const lines=raw.split('\n').filter(l=>l.trim());
+  const data=parseLines(lines);
+  if(!data.length){alert('Could not parse table.');return;}
+  saveTableLS(raw,which);
+  if(which==='prev')adjPrevData=data;
+  else adjNextData=data;
+  data.forEach(r=>{covMap[r.date]=r.avail-r.reqd;});
+  rebuildAllDates();
+  refreshAllCals();
+  document.getElementById(which==='prev'?'prev-adj-paste':'next-adj-paste').style.display='none';
+  document.getElementById('load-status').textContent=`✅ ${which==='prev'?'Previous':'Next'} month data loaded (${data.length} days)`;
 }
 
-function buildModalCal(){
-  const container=document.getElementById('modal-cal');
-  if(!reserveData.length){container.innerHTML='<p style="font-size:12px;color:#888">Load reserve table first to see calendar.</p>';return;}
-  buildCalendarInto(container,'modal');
+function rebuildAllDates(){
+  // prev4 (last 4 of adjPrev) + main + next4 (first 4 of adjNext)
+  const prev4=adjPrevData.slice(-4);
+  const next4=adjNextData.slice(0,4);
+  allDates=[...prev4,...reserveData,...next4];
 }
 
-function renderModalTrips(){
-  const el=document.getElementById('modal-trip-list');
-  if(!myTrips.length){el.innerHTML='<p style="font-size:12px;color:#888;margin-bottom:6px">No trips added yet.</p>';return;}
-  el.innerHTML=myTrips.map((t,i)=>`
-    <div class="trip-card">
-      <div><div class="trip-label">✈️ ${t.name}</div><div class="trip-dates">${t.days.join(', ')}</div></div>
-      <button class="action-btn danger-btn" onclick="removeTrip(${i},'modal')" style="font-size:11px;padding:5px 10px;min-height:32px">✕</button>
-    </div>`).join('');
+// ── SCHEDULE UI ─────────────────────────────────────
+function toggleSchedBody(){
+  schedBodyOpen=!schedBodyOpen;
+  document.getElementById('sched-body').style.display=schedBodyOpen?'block':'none';
+  const btn=document.getElementById('sched-toggle-btn');
+  if(schedBodyOpen){
+    btn.textContent='▲ Collapse';btn.className='action-btn ghost-btn';
+    updateSchedCalVisibility();
+    if(reserveData.length)buildSchedAddCal();
+  } else updateSchedToggleBtn();
 }
 
-function setLen(n){modalLen=n;updateLenBtns('lb',n);}
-
-function addModalTrip(){
-  if(!modalStartDay){alert('Select a start day on the calendar first.');return;}
-  addTripFromDay(modalStartDay,modalLen);
-  renderModalTrips();
-  modalStartDay=null;
-  buildModalCal();
+function updateSchedToggleBtn(){
+  const btn=document.getElementById('sched-toggle-btn');
+  if(myTrips.length){btn.textContent='✏️ Edit';btn.className='action-btn ghost-btn';}
+  else{btn.textContent='Add Schedule';btn.className='action-btn primary-btn';}
 }
 
-// ══════════════════════════════════════════════════════
-// SCHEDULE TAB
-// ══════════════════════════════════════════════════════
-function renderScheduleTab(){
-  const el=document.getElementById('schedule-list');
-  if(!myTrips.length){el.innerHTML='<p style="font-size:12px;color:#888">No trips saved. Add trips below.</p>';return;}
-  el.innerHTML=myTrips.map((t,i)=>`
-    <div class="trip-card">
-      <div><div class="trip-label">✈️ ${t.name}</div><div class="trip-dates">${t.days.join(', ')}</div></div>
-      <button class="action-btn danger-btn" onclick="removeTrip(${i},'sched')" style="font-size:11px;padding:5px 10px;min-height:32px">✕</button>
-    </div>`).join('');
-}
-
-function renderScheduleStrip(){
-  const strip=document.getElementById('schedule-strip');
-  const el=document.getElementById('strip-trips');
-  if(!myTrips.length){strip.style.display='none';return;}
-  strip.style.display='block';
+function updateSchedSub(){
+  const el=document.getElementById('sched-sub');
+  if(!myTrips.length){el.textContent='Add your current trips';return;}
   el.textContent=myTrips.map(t=>t.name).join(' · ');
+  updateSchedToggleBtn();
+}
+
+function saveSchedAndCollapse(){
+  saveTrips();schedBodyOpen=false;
+  document.getElementById('sched-body').style.display='none';
+  updateSchedSub();updateSchedToggleBtn();renderScheduleList();
+  if(reserveData.length){refreshAllCals();rebuildAvoidForSchedule();}
+}
+
+function buildSchedAddCal(){
+  if(!reserveData.length)return;
+  buildCalendarInto(document.getElementById('sched-add-cal'),'sched-add');
 }
 
 function setSchedLen(n){schedLen=n;updateLenBtns('slb',n);}
+function updateLenBtns(prefix,n){for(let i=1;i<=5;i++){const b=document.getElementById(prefix+i);if(b)b.className='action-btn'+(i===n?' primary-btn':'');}}
 
 function addSchedTrip(){
   if(!schedStartDay){alert('Select a start day on the calendar first.');return;}
-  addTripFromDay(schedStartDay,schedLen);
+  addTripObj(schedStartDay,schedLen);
   schedStartDay=null;
-  saveTripsToStorage();
-  rebuildWorkingDays();
-  renderScheduleTab();
-  renderScheduleStrip();
-  if(reserveData.length)refreshAllCals();
+  sortTrips();
+  renderScheduleList();
+  buildSchedAddCal();
   updateLenBtns('slb',1);schedLen=1;
-}
-
-function removeTrip(idx,src){
-  myTrips.splice(idx,1);
-  saveTripsToStorage();
-  rebuildWorkingDays();
-  if(src==='modal')renderModalTrips();
-  else{renderScheduleTab();renderScheduleStrip();}
   if(reserveData.length)refreshAllCals();
 }
 
-function addTripFromDay(startLabel,len){
+function removeTrip(idx){
+  myTrips.splice(idx,1);
+  sortTrips();saveTrips();updateSchedSub();renderScheduleList();
+  if(reserveData.length){refreshAllCals();rebuildAvoidForSchedule();}
+}
+
+function addTripObj(startLabel,len){
   const p=parseDate(startLabel);if(!p)return;
   const days=[];
-  for(let i=0;i<len;i++){
-    const d=new Date(baseYear,p.month,p.day+i);
-    days.push(labelFromDate(d));
-  }
-  const mo=MONTH_NAMES[p.month];
-  const name=`${mo}${String(p.day).padStart(2,'0')}/${len}-day`;
-  myTrips.push({name,days});
+  for(let i=0;i<len;i++){const d=new Date(baseYear,p.month,p.day+i);days.push(labelFromJsDate(d));}
+  myTrips.push({name:`${MONTH_NAMES[p.month]}${String(p.day).padStart(2,'0')}/${len}-day`,days});
 }
 
-function rebuildWorkingDays(){
-  workingDays=new Set();
-  myTrips.forEach(t=>t.days.forEach(d=>workingDays.add(d)));
+function renderScheduleList(){
+  const el=document.getElementById('schedule-list');
+  if(!myTrips.length){el.innerHTML='<p style="font-size:12px;color:#888;margin-bottom:6px">No trips saved. Add trips below.</p>';return;}
+  el.innerHTML=myTrips.map((t,i)=>`
+    <div class="trip-card">
+      <div><div class="trip-label">✈️ ${t.name}</div><div class="trip-dates">${t.days.join(', ')}</div></div>
+      <button class="action-btn danger-btn" onclick="removeTrip(${i})" style="font-size:11px;padding:5px 10px;min-height:32px">✕</button>
+    </div>`).join('');
 }
 
-function updateLenBtns(prefix,n){
-  for(let i=1;i<=5;i++){
-    const b=document.getElementById(prefix+i);
-    if(b){b.className='action-btn'+(i===n?' primary-btn':'');}
-  }
+// ── AVOID AUTO-POPULATION ───────────────────────────
+function rebuildAvoidForSchedule(){
+  avoidSel.clear();
+  const wd=getWorkingDays();
+  wd.forEach(d=>{if(!scanDropSel.has(d))avoidSel.add(d);});
+  if(document.getElementById('avoid-cal'))buildCalendarInto(document.getElementById('avoid-cal'),'avoid');
 }
 
-// ══════════════════════════════════════════════════════
-// LOAD TABLE
-// ══════════════════════════════════════════════════════
+function syncAvoidWithScanDrop(){
+  avoidSel.clear();
+  const wd=getWorkingDays();
+  wd.forEach(d=>{if(!scanDropSel.has(d))avoidSel.add(d);});
+  if(avoidWeekendsActive)allDates.forEach(r=>{if(isWeekend(r.date))avoidSel.add(r.date);});
+}
+
+// ── LOAD TABLE ──────────────────────────────────────
 function parseLines(lines){
   return lines.map(l=>{
-    const p=l.trim().split(/[\s\t]+/);
-    if(p.length<3)return null;
+    const p=l.trim().split(/[\s\t]+/);if(p.length<3)return null;
     const date=p[0].toUpperCase(),reqd=parseInt(p[1]),avail=parseInt(p[2]);
     return date.match(/^\d{2}[A-Z]{3}$/)&&!isNaN(reqd)&&!isNaN(avail)?{date,reqd,avail}:null;
   }).filter(Boolean);
 }
 
-function showPasteArea(){
-  document.getElementById('paste-section').style.display='block';
+function showUpdatePaste(){
+  document.getElementById('paste-area-update').value='';
+  document.getElementById('paste-update').style.display='block';
+}
+function cancelUpdate(){document.getElementById('paste-update').style.display='none';}
+
+function loadTableFirst(){processTableLoad(document.getElementById('paste-area-first').value);}
+function loadTableUpdate(){
+  processTableLoad(document.getElementById('paste-area-update').value);
+  document.getElementById('paste-update').style.display='none';
+}
+
+function processTableLoad(raw){
+  const lines=raw.split('\n').filter(l=>l.trim());
+  reserveData=parseLines(lines);
+  if(!reserveData.length){alert('Could not parse rows.\nUse format: 01AUG 30 25');return;}
+  saveTableLS(raw,'main');
+  loadTime=new Date();
+  baseYear=guessYear(reserveData.map(r=>r.date));
+  covMap={};reserveData.forEach(r=>{covMap[r.date]=r.avail-r.reqd;});
+  // Load adj tables from storage if available
+  const prevRaw=loadTableLS('prev');
+  const nextRaw=loadTableLS('next');
+  if(prevRaw){adjPrevData=parseLines(prevRaw.split('\n').filter(l=>l.trim()));adjPrevData.forEach(r=>{covMap[r.date]=r.avail-r.reqd;});}
+  if(nextRaw){adjNextData=parseLines(nextRaw.split('\n').filter(l=>l.trim()));adjNextData.forEach(r=>{covMap[r.date]=r.avail-r.reqd;});}
+  rebuildAllDates();
+  const label=loadTime.toLocaleDateString([],{month:'short',day:'numeric'})+' '+loadTime.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('saved-table-ts').textContent=`Last updated: ${label}`;
+  document.getElementById('saved-table-banner').style.display='flex';
+  document.getElementById('paste-first').style.display='none';
+  document.getElementById('adj-section').style.display='block';
+  finishLoad();
 }
 
 function loadSavedTable(){
-  const{raw}=loadTableFromStorage();
-  if(!raw)return;
+  const raw=loadTableLS('main');if(!raw)return;
   const lines=raw.split('\n').filter(l=>l.trim());
   reserveData=parseLines(lines);
   if(!reserveData.length){alert('Saved table could not be parsed.');return;}
   loadTime=new Date(localStorage.getItem('pcs_table_ts')||new Date());
   baseYear=guessYear(reserveData.map(r=>r.date));
-  finishLoad(false);
+  covMap={};reserveData.forEach(r=>{covMap[r.date]=r.avail-r.reqd;});
+  const prevRaw=loadTableLS('prev');const nextRaw=loadTableLS('next');
+  if(prevRaw){adjPrevData=parseLines(prevRaw.split('\n').filter(l=>l.trim()));adjPrevData.forEach(r=>{covMap[r.date]=r.avail-r.reqd;});}
+  if(nextRaw){adjNextData=parseLines(nextRaw.split('\n').filter(l=>l.trim()));adjNextData.forEach(r=>{covMap[r.date]=r.avail-r.reqd;});}
+  rebuildAllDates();
+  document.getElementById('adj-section').style.display='block';
+  finishLoad();
 }
 
-function loadTable(){
-  const raw=document.getElementById('paste-area').value;
-  const lines=raw.split('\n').filter(l=>l.trim());
-  reserveData=parseLines(lines);
-  if(!reserveData.length){alert('Could not parse rows.\nUse format: 01AUG 30 25');return;}
-  saveTableToStorage(raw);
-  loadTime=new Date();
-  baseYear=guessYear(reserveData.map(r=>r.date));
-  // update banner
-  const hhmm=loadTime.toLocaleDateString([],{month:'short',day:'numeric'})+' '+loadTime.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
-  document.getElementById('saved-table-ts').textContent=`Last updated: ${hhmm}`;
-  document.getElementById('saved-table-banner').style.display='flex';
-  document.getElementById('paste-section').style.display='none';
-  finishLoad(true);
-}
-
-function finishLoad(isNew){
-  covMap={};dropSel.clear();addSel.clear();scanDropSel.clear();avoidSel.clear();
-  reserveData.forEach(r=>{covMap[r.date]=r.avail-r.reqd;});
+function finishLoad(){
+  dropSel.clear();addSel.clear();scanDropSel.clear();avoidSel.clear();
   document.getElementById('main').style.display='block';
   const hhmm=loadTime?loadTime.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):'';
   document.getElementById('load-status').textContent=`✅ ${reserveData.length} days loaded${hhmm?' at '+hhmm:''}`;
-  buildCovTable();
-  refreshAllCals();
-  renderScheduleTab();
-  renderScheduleStrip();
-  buildSchedAddCal();
-  evaluate();
+  sortTrips();buildCovTable();refreshAllCals();renderScheduleList();
+  updateSchedCalVisibility();if(schedBodyOpen)buildSchedAddCal();
+  rebuildAvoidForSchedule();evaluate();updateLengthOptions();
   document.getElementById('scan-results').innerHTML='';
-  updateLengthOptions();
 }
 
 function refreshAllCals(){
@@ -574,127 +616,261 @@ function refreshAllCals(){
   buildCalendarInto(document.getElementById('avoid-cal'),'avoid');
 }
 
-// ══════════════════════════════════════════════════════
-// COVERAGE TABLE
-// ══════════════════════════════════════════════════════
+// ── COVERAGE TABLE ──────────────────────────────────
 function buildCovTable(){
   const table=document.getElementById('cov-table');
+  // Show adj prev rows if loaded
+  const rows=[...adjPrevData.slice(-4),...reserveData,...adjNextData.slice(0,4)];
   let html='<tr><th class="cov-th">Date</th>';
-  reserveData.forEach(r=>html+=`<th class="cov-th">${r.date}<br><span style="font-weight:400;font-size:8px">${getDOW(r.date)}</span></th>`);
+  rows.forEach(r=>{
+    const adj=!isMainPeriod(r.date);
+    html+=`<th class="cov-th"${adj?' style="background:#f0e8ff;color:#5a2d82"':''}>${r.date}<br><span style="font-weight:400;font-size:8px">${getDOW(r.date)}</span></th>`;
+  });
   html+='</tr>';
   [['Reqd',r=>r.reqd],['Avail',r=>r.avail],
-   ['Cov',r=>{const c=r.avail-r.reqd,col=c<0?'#E24B4A':c===0?'#999':'#639922';return`<span style="color:${col};font-weight:700">${c}</span>`;}]
+   ['Cov',r=>{const c=(covMap[r.date]!==undefined?covMap[r.date]:r.avail-r.reqd);const col=c<0?'#d94040':c===0?'#999':'#4a8c1c';return`<span style="color:${col};font-weight:700">${c}</span>`;}]
   ].forEach(([lbl,fn])=>{
-    html+=`<tr><td class="cov-td" style="font-weight:700;background:#f7f7f7;color:#666">${lbl}</td>`;
-    reserveData.forEach(r=>html+=`<td class="cov-td">${fn(r)}</td>`);
+    html+=`<tr><td class="cov-td" style="font-weight:700;background:#f5f7ff;color:#666">${lbl}</td>`;
+    rows.forEach(r=>{
+      const adj=!isMainPeriod(r.date);
+      html+=`<td class="cov-td"${adj?' style="background:#f8f0ff;color:#5a2d82"':''}>${fn(r)}</td>`;
+    });
     html+='</tr>';
   });
   table.innerHTML=html;
 }
 
-// ══════════════════════════════════════════════════════
-// CALENDAR BUILDER
-// ══════════════════════════════════════════════════════
-function buildCalendarInto(container,mode){
-  if(!container||!reserveData.length)return;
-  container.innerHTML='';
-
-  const wrap=document.createElement('div');wrap.className='cal-wrap';
-
-  // DOW headers
-  const hdr=document.createElement('div');hdr.className='cal-header';
-  ['SUN','MON','TUE','WED','THU','FRI','SAT'].forEach((d,i)=>{
-    const cell=document.createElement('div');
-    cell.className='cal-dow'+(i===0||i===6?' wknd':'');
-    cell.textContent=d;hdr.appendChild(cell);
-  });
-  wrap.appendChild(hdr);
-
-  const grid=document.createElement('div');grid.className='cal-grid';
-
-  // Pad to correct DOW
-  const firstDOW=getStartDOW(reserveData[0].date);
-  for(let i=0;i<firstDOW;i++){const e=document.createElement('div');e.className='cal-day empty';grid.appendChild(e);}
-
-  reserveData.forEach(r=>{
-    const dow=getDOW(r.date);
-    const wknd=dow==='SAT'||dow==='SUN';
-    const isWorking=workingDays.has(r.date);
-    // Find which trip this day belongs to
-    const trip=myTrips.find(t=>t.days.includes(r.date));
-    const cell=document.createElement('div');
-
-    let cls='cal-day';
-    if(mode==='drop'){
-      const isOv=dropSel.has(r.date)&&addSel.has(r.date);
-      if(isOv)cls+=' overlap';
-      else if(dropSel.has(r.date))cls+=' sel-drop';
-      else if(isWorking)cls+=' working';
-      else if(wknd)cls+=' wknd-day';
-    } else if(mode==='add'){
-      const isOv=dropSel.has(r.date)&&addSel.has(r.date);
-      if(isOv)cls+=' overlap';
-      else if(addSel.has(r.date))cls+=' sel-add';
-      else if(isWorking)cls+=' working';
-      else if(wknd)cls+=' wknd-day';
-    } else if(mode==='scan-drop'){
-      if(scanDropSel.has(r.date))cls+=' sel-drop';
-      else if(isWorking)cls+=' working';
-      else if(wknd)cls+=' wknd-day';
-    } else if(mode==='avoid'){
-      if(avoidSel.has(r.date))cls+=' avoided';
-      else if(isWorking)cls+=' working';
-      else if(wknd)cls+=' wknd-day';
-    } else if(mode==='modal'){
-      if(modalStartDay===r.date)cls+=' sel-drop';
-      else if(isWorking)cls+=' working';
-      else if(wknd)cls+=' wknd-day';
-    } else if(mode==='sched-add'){
-      if(schedStartDay===r.date)cls+=' sel-drop';
-      else if(isWorking)cls+=' working';
-      else if(wknd)cls+=' wknd-day';
-    }
-
-    // Scanner: grey out working days and avoid days
-    if((mode==='scan-drop')&&isWorking&&!scanDropSel.has(r.date)){
-      cls+=' scanner-blocked';
-    }
-
-    cell.className=cls;
-    cell.innerHTML=`<span class="dl">${r.date}</span><span class="dd">${dow}</span>${isWorking&&trip?`<span class="wi" style="color:${cls.includes('sel-')?'rgba(255,255,255,.8)':'#1a73e8'}">${trip.name}</span>`:''}`;
-
-    cell.onclick=()=>{
-      if(mode==='drop'){dropSel.has(r.date)?dropSel.delete(r.date):dropSel.add(r.date);buildCalendarInto(document.getElementById('drop-cal'),'drop');buildCalendarInto(document.getElementById('add-cal'),'add');evaluate();}
-      else if(mode==='add'){addSel.has(r.date)?addSel.delete(r.date):addSel.add(r.date);buildCalendarInto(document.getElementById('drop-cal'),'drop');buildCalendarInto(document.getElementById('add-cal'),'add');evaluate();}
-      else if(mode==='scan-drop'){scanDropSel.has(r.date)?scanDropSel.delete(r.date):scanDropSel.add(r.date);buildCalendarInto(document.getElementById('scan-drop-cal'),'scan-drop');updateScanDropSummary();updateLengthOptions();}
-      else if(mode==='avoid'){avoidSel.has(r.date)?avoidSel.delete(r.date):avoidSel.add(r.date);buildCalendarInto(document.getElementById('avoid-cal'),'avoid');}
-      else if(mode==='modal'){modalStartDay=r.date;buildModalCal();}
-      else if(mode==='sched-add'){schedStartDay=r.date;buildSchedAddCal();}
-    };
-    grid.appendChild(cell);
-  });
-  wrap.appendChild(grid);
-  container.appendChild(wrap);
-}
-
-function buildSchedAddCal(){
-  buildCalendarInto(document.getElementById('sched-add-cal'),'sched-add');
-}
-
-// ══════════════════════════════════════════════════════
-// TAB SWITCHING
-// ══════════════════════════════════════════════════════
+// ── TAB SWITCHING ───────────────────────────────────
 function switchTab(tab){
-  ['checker','scanner','schedule'].forEach(t=>{
+  ['checker','scanner'].forEach(t=>{
     document.getElementById('pane-'+t).style.display=t===tab?'block':'none';
     document.getElementById('tab-'+t).className='tab-btn'+(t===tab?' active':'');
   });
-  if(tab==='schedule'){renderScheduleTab();buildSchedAddCal();}
 }
 
-// ══════════════════════════════════════════════════════
-// COVERAGE CHECK
-// ══════════════════════════════════════════════════════
+// ── POPUP ───────────────────────────────────────────
+function showTripPopup(e,label,trip,mode){
+  e.stopPropagation();
+  popupDay=label;popupTrip=trip;popupMode=mode;
+  document.getElementById('popup-trip-name').textContent='✈️ '+trip.name;
+  document.getElementById('popup-sel-btn').textContent=`Select Entire Rotation (${trip.days.length}d)`;
+  const pop=document.getElementById('trip-popup');
+  pop.style.display='block';
+  document.getElementById('popup-backdrop').style.display='block';
+  const rect=e.currentTarget.getBoundingClientRect();
+  let top=rect.bottom+window.scrollY+6,left=rect.left+window.scrollX;
+  if(left+200>window.innerWidth-8)left=window.innerWidth-208;
+  pop.style.top=top+'px';pop.style.left=Math.max(8,left)+'px';
+}
+
+function closePopup(){
+  document.getElementById('trip-popup').style.display='none';
+  document.getElementById('popup-backdrop').style.display='none';
+  popupDay=null;popupTrip=null;popupMode=null;
+}
+
+function popupSelectTrip(){
+  if(!popupTrip||!popupMode){closePopup();return;}
+  const trip=popupTrip,mode=popupMode;closePopup();
+  if(mode==='drop'){
+    trip.days.forEach(d=>dropSel.add(d));
+    buildCalendarInto(document.getElementById('drop-cal'),'drop');
+    buildCalendarInto(document.getElementById('add-cal'),'add');evaluate();
+  } else if(mode==='scan-drop'){
+    trip.days.forEach(d=>scanDropSel.add(d));
+    syncAvoidWithScanDrop();
+    buildCalendarInto(document.getElementById('scan-drop-cal'),'scan-drop');
+    buildCalendarInto(document.getElementById('avoid-cal'),'avoid');
+    updateScanDropSummary();updateLengthOptions();
+  } else if(mode==='avoid'){
+    trip.days.forEach(d=>avoidSel.add(d));
+    buildCalendarInto(document.getElementById('avoid-cal'),'avoid');
+  }
+}
+
+// ── CALENDAR BUILDER ────────────────────────────────
+// Renders a calendar using allDates (prev4 + main + next4)
+// Trips are rendered as spanning blocks across their days
+function buildCalendarInto(container,mode){
+  if(!container)return;
+  container.innerHTML='';
+  const dates=allDates.length?allDates:reserveData;
+  if(!dates.length)return;
+  const wd=getWorkingDays();
+
+  // DOW header
+  const hdr=document.createElement('div');hdr.className='cal-header';
+  ['SUN','MON','TUE','WED','THU','FRI','SAT'].forEach((d,i)=>{
+    const c=document.createElement('div');c.className='cal-dow'+(i===0||i===6?' wknd':'');c.textContent=d;hdr.appendChild(c);
+  });
+  container.appendChild(hdr);
+
+  // Build a flat array of cells: each is {type:'date',date,...} or {type:'empty'} or {type:'trip-start',trip,span} or {type:'trip-cont',trip}
+  // We need to lay out on a 7-column grid
+  // First pass: collect trip occupancy map
+  const tripDayMap={}; // label -> trip
+  myTrips.forEach(t=>t.days.forEach(d=>{if(!tripDayMap[d])tripDayMap[d]=t;}));
+
+  // Build ordered list of labels including padding empties at start
+  const firstDOW=getStartDOW(dates[0].date);
+  // Total slots needed
+  const totalSlots=firstDOW+dates.length;
+  const rows=Math.ceil(totalSlots/7);
+
+  // Build grid slot array
+  const slots=[];
+  for(let i=0;i<firstDOW;i++)slots.push({type:'empty'});
+  dates.forEach(r=>slots.push({type:'date',r}));
+  // Pad to full rows
+  while(slots.length%7!==0)slots.push({type:'empty'});
+
+  // Render row by row
+  const wrap=document.createElement('div');wrap.style.display='flex';wrap.style.flexDirection='column';wrap.style.gap='3px';
+
+  const skipSet=new Set(); // slots (by index) already rendered as part of a trip block
+
+  for(let row=0;row<slots.length/7;row++){
+    const rowEl=document.createElement('div');
+    rowEl.style.display='grid';rowEl.style.gridTemplateColumns='repeat(7,1fr)';rowEl.style.gap='3px';
+
+    let col=0;
+    while(col<7){
+      const slotIdx=row*7+col;
+      const slot=slots[slotIdx];
+
+      if(slot.type==='empty'){
+        const e=document.createElement('div');e.className='cal-day empty';rowEl.appendChild(e);col++;continue;
+      }
+
+      const r=slot.r;
+      const label=r.date;
+      const trip=tripDayMap[label];
+      const isAdj=!isMainPeriod(label);
+
+      // Check if this is day-1 of a trip visible in THIS row
+      if(trip&&trip.days[0]===label){
+        // How many days of this trip are in this row?
+        let span=0;
+        for(let c2=col;c2<7;c2++){
+          const s2=slots[row*7+c2];
+          if(s2&&s2.type==='date'&&s2.r&&tripDayMap[s2.r.date]===trip)span++;
+          else break;
+        }
+        // Render trip block spanning 'span' columns
+        const block=document.createElement('div');
+        block.className='trip-block';
+        block.style.gridColumn=`span ${span}`;
+
+        // Determine selection state
+        const allDropped=trip.days.every(d=>
+          mode==='drop'?dropSel.has(d):mode==='scan-drop'?scanDropSel.has(d):false
+        );
+        const allAvoided=trip.days.every(d=>avoidSel.has(d));
+        if((mode==='drop'&&allDropped)||(mode==='scan-drop'&&allDropped))block.classList.add('sel-drop');
+        if(mode==='avoid'&&allAvoided)block.classList.add('avoided-block');
+
+        const firstDate=trip.days[0],lastDate=trip.days[trip.days.length-1];
+        block.innerHTML=`<div class="tb-name">✈️ ${trip.name}</div><div class="tb-dates">${firstDate}–${lastDate}</div><div class="tb-days">${getDOW(firstDate)}–${getDOW(lastDate)}</div>`;
+        block.onclick=(e)=>handleTripBlockClick(e,label,trip,mode);
+        rowEl.appendChild(block);
+
+        // Mark subsequent trip slots in this row as used
+        for(let c2=col;c2<col+span;c2++)skipSet.add(row*7+c2);
+        col+=span;continue;
+      }
+
+      // Is this a continuation of a trip (not day-1 in this row)?
+      if(trip&&trip.days[0]!==label&&!skipSet.has(slotIdx)){
+        // Render as continuation cell
+        const cont=document.createElement('div');
+        cont.className='trip-cont';
+        const allDropped=trip.days.every(d=>mode==='drop'?dropSel.has(d):mode==='scan-drop'?scanDropSel.has(d):false);
+        const allAvoided=trip.days.every(d=>avoidSel.has(d));
+        if((mode==='drop'&&allDropped)||(mode==='scan-drop'&&allDropped))cont.classList.add('sel-drop');
+        if(mode==='avoid'&&allAvoided)cont.classList.add('avoided-block');
+        const dow=getDOW(label);
+        cont.textContent=label.slice(0,2); // just day number
+        if(isAdj)cont.style.borderColor='#c9a0e8';
+        cont.onclick=(e)=>handleTripBlockClick(e,trip.days[0],trip,mode);
+        rowEl.appendChild(cont);col++;continue;
+      }
+
+      // Regular non-trip day
+      if(skipSet.has(slotIdx)){col++;continue;}
+      const cell=renderDayCell(r,mode,isAdj,wd);
+      rowEl.appendChild(cell);col++;
+    }
+    wrap.appendChild(rowEl);
+  }
+  container.appendChild(wrap);
+}
+
+function handleTripBlockClick(e,label,trip,mode){
+  e.stopPropagation();
+  // Check current state - if already selected, deselect
+  const isDropMode=mode==='drop'||mode==='scan-drop';
+  const allSel=isDropMode
+    ? trip.days.every(d=>mode==='drop'?dropSel.has(d):scanDropSel.has(d))
+    : trip.days.every(d=>avoidSel.has(d));
+
+  if(allSel){
+    // Deselect entire trip
+    if(mode==='drop'){trip.days.forEach(d=>dropSel.delete(d));buildCalendarInto(document.getElementById('drop-cal'),'drop');buildCalendarInto(document.getElementById('add-cal'),'add');evaluate();}
+    else if(mode==='scan-drop'){trip.days.forEach(d=>scanDropSel.delete(d));syncAvoidWithScanDrop();buildCalendarInto(document.getElementById('scan-drop-cal'),'scan-drop');buildCalendarInto(document.getElementById('avoid-cal'),'avoid');updateScanDropSummary();updateLengthOptions();}
+    else if(mode==='avoid'){trip.days.forEach(d=>avoidSel.delete(d));buildCalendarInto(document.getElementById('avoid-cal'),'avoid');}
+  } else {
+    // Select entire trip
+    if(mode==='drop'||mode==='scan-drop'){
+      showTripPopup(e,label,trip,mode);
+    } else if(mode==='avoid'){
+      trip.days.forEach(d=>avoidSel.add(d));buildCalendarInto(document.getElementById('avoid-cal'),'avoid');
+    }
+  }
+}
+
+function renderDayCell(r,mode,isAdj,wd){
+  const label=r.date;
+  const dow=getDOW(label);
+  const wknd=dow==='SAT'||dow==='SUN';
+  const isWorking=wd.has(label);
+  const cell=document.createElement('div');
+  let cls='cal-day';
+  if(isAdj)cls+=' adj-period';
+  else if(mode==='drop'){
+    const isOv=dropSel.has(label)&&addSel.has(label);
+    if(isOv)cls+=' overlap';
+    else if(dropSel.has(label))cls+=' sel-drop';
+    else if(wknd)cls+=' wknd-day';
+  } else if(mode==='add'){
+    const isOv=dropSel.has(label)&&addSel.has(label);
+    if(isOv)cls+=' overlap';
+    else if(addSel.has(label))cls+=' sel-add';
+    else if(wknd)cls+=' wknd-day';
+  } else if(mode==='scan-drop'){
+    if(scanDropSel.has(label))cls+=' sel-drop';
+    else if(wknd)cls+=' wknd-day';
+  } else if(mode==='avoid'){
+    if(avoidSel.has(label))cls+=' avoided';
+    else if(isWorking)cls+=''; // working handled by trip blocks now
+    else if(wknd)cls+=' wknd-day';
+  } else if(mode==='sched-add'){
+    if(schedStartDay===label)cls+=' sel-drop';
+    else if(isWorking)cls+=''; // shown as trip block
+    else if(wknd)cls+=' wknd-day';
+  }
+  cell.className=cls;
+  cell.innerHTML=`<span class="dl">${label}</span><span class="dd">${dow}</span>`;
+  cell.onclick=(e)=>{
+    if(mode==='sched-add'){schedStartDay=label;buildSchedAddCal();return;}
+    if(mode==='drop'){dropSel.has(label)?dropSel.delete(label):dropSel.add(label);buildCalendarInto(document.getElementById('drop-cal'),'drop');buildCalendarInto(document.getElementById('add-cal'),'add');evaluate();}
+    else if(mode==='add'){addSel.has(label)?addSel.delete(label):addSel.add(label);buildCalendarInto(document.getElementById('drop-cal'),'drop');buildCalendarInto(document.getElementById('add-cal'),'add');evaluate();}
+    else if(mode==='scan-drop'){scanDropSel.has(label)?scanDropSel.delete(label):scanDropSel.add(label);syncAvoidWithScanDrop();buildCalendarInto(document.getElementById('scan-drop-cal'),'scan-drop');buildCalendarInto(document.getElementById('avoid-cal'),'avoid');updateScanDropSummary();updateLengthOptions();}
+    else if(mode==='avoid'){avoidSel.has(label)?avoidSel.delete(label):avoidSel.add(label);buildCalendarInto(document.getElementById('avoid-cal'),'avoid');}
+  };
+  return cell;
+}
+
+// ── COVERAGE CHECK ──────────────────────────────────
 function coverageCheck(dropDays,addDays){
   const dropNeg=dropDays.filter(d=>covMap[d]<0);
   const addNeg=addDays.filter(d=>covMap[d]<0);
@@ -713,40 +889,35 @@ function coverageCheck(dropDays,addDays){
   return{approved,reason,useHoliday,dropNeg,addNeg,dropNegSum,addNegSum};
 }
 
-// ══════════════════════════════════════════════════════
-// WILL IT SWAP
-// ══════════════════════════════════════════════════════
+// ── WILL IT SWAP ────────────────────────────────────
 function clearChecker(){dropSel.clear();addSel.clear();buildCalendarInto(document.getElementById('drop-cal'),'drop');buildCalendarInto(document.getElementById('add-cal'),'add');evaluate();}
 
 function evaluate(){
   const bEl=document.getElementById('breakdown'),sg=document.getElementById('sum-grid');
   const rb=document.getElementById('result-box'),rt=document.getElementById('result-title'),rs=document.getElementById('result-sub');
-  if(!dropSel.size&&!addSel.size){bEl.textContent='Select days above.';sg.style.display='none';rb.className='result-box';rt.style.color='#888';rt.textContent='Awaiting input';rs.style.color='#888';rs.textContent='Select days to evaluate';return;}
+  if(!dropSel.size&&!addSel.size){bEl.textContent='Select days above to see breakdown.';sg.style.display='none';rb.className='result-box';rt.style.color='#999';rt.textContent='Awaiting input';rs.style.color='#aaa';rs.textContent='Select days to evaluate';return;}
   const overlapDays=[...dropSel].filter(d=>addSel.has(d));
   const dropDays=[...dropSel].filter(d=>!addSel.has(d));
   const addDays=[...addSel].filter(d=>!dropSel.has(d));
   const{approved,reason,useHoliday,dropNeg,addNeg,dropNegSum,addNegSum}=coverageCheck(dropDays,addDays);
-
   const makeTag=(d,side)=>{
-    const c=covMap[d],dow=getDOW(d);
-    // Drop tags: red. Add tags: always green.
+    const c=covMap[d]!==undefined?covMap[d]:0,dow=getDOW(d);
     let bg,col,border;
-    if(side==='drop'){bg=c<0?'#F7C1C1':c===0?'#e8e8e8':'#C0DD97';col=c<0?'#501313':c===0?'#555':'#173404';border=c<0?'#E24B4A':c===0?'#bbb':'#639922';}
-    else{bg='#C0DD97';col='#173404';border='#639922';}
+    if(side==='drop'){bg=c<0?'#fde8e8':c===0?'#eee':'#eaf3de';col=c<0?'#7a1010':c===0?'#555':'#2a5c08';border=c<0?'#d94040':c===0?'#bbb':'#4a8c1c';}
+    else{bg='#eaf3de';col='#2a5c08';border='#4a8c1c';}
     const hol=side==='drop'&&isAPD(d);
-    return`<span class="tag" style="background:${bg};color:${col};border-color:${border}">${d} <span style="font-size:9px">${dow}</span> <b>${c>0?'+':''}${c}</b>${hol?'<span class="badge badge-hol">HOL</span>':''}</span>`;
+    return`<span class="tag" style="background:${bg};color:${col};border-color:${border}">${d} <span style="font-size:9px;opacity:.7">${dow}</span> <b>${c>0?'+':''}${c}</b>${hol?'<span class="badge badge-hol">HOL</span>':''}</span>`;
   };
-
   let bHtml='';
-  if(overlapDays.length){bHtml+=`<p style="margin-bottom:5px"><b>Overlapping (skipped):</b> `;overlapDays.forEach(d=>bHtml+=`<span class="tag" style="background:#FAEEDA;color:#412402;border-color:#BA7517">${d} <span style="font-size:9px">${getDOW(d)}</span></span>`);bHtml+='</p>';}
-  if(dropDays.length){bHtml+=`<p style="margin-bottom:3px;font-weight:700;font-size:11px;color:#A32D2D">Drop:</p><div style="margin-bottom:5px">`;dropDays.forEach(d=>bHtml+=makeTag(d,'drop'));bHtml+='</div>';}
-  if(addDays.length){bHtml+=`<p style="margin-bottom:3px;font-weight:700;font-size:11px;color:#27500A">Add:</p><div>`;addDays.forEach(d=>bHtml+=makeTag(d,'add'));bHtml+='</div>';}
-  if(useHoliday)bHtml+=`<p style="margin-top:6px;font-size:11px;color:#854F0B;background:#FAEEDA;padding:4px 8px;border-radius:5px;display:inline-block">⚠️ APD Holiday period — day-by-day check</p>`;
+  if(overlapDays.length){bHtml+=`<p style="margin-bottom:6px"><b>Overlapping (skipped):</b> `;overlapDays.forEach(d=>bHtml+=`<span class="tag" style="background:#fff8ee;color:#7a4800;border-color:#e8b86d">${d} <span style="font-size:9px">${getDOW(d)}</span></span>`);bHtml+='</p>';}
+  if(dropDays.length){bHtml+=`<p style="margin-bottom:4px;font-weight:800;font-size:12px;color:#d94040">▼ Drop:</p><div style="margin-bottom:8px">`;dropDays.forEach(d=>bHtml+=makeTag(d,'drop'));bHtml+='</div>';}
+  if(addDays.length){bHtml+=`<p style="margin-bottom:4px;font-weight:800;font-size:12px;color:#4a8c1c">▲ Add:</p><div>`;addDays.forEach(d=>bHtml+=makeTag(d,'add'));bHtml+='</div>';}
+  if(useHoliday)bHtml+=`<p style="margin-top:8px;font-size:11px;color:#854F0B;background:#fff3d6;padding:5px 10px;border-radius:6px;display:inline-block">⚠️ APD Holiday period — day-by-day check applies</p>`;
   bEl.innerHTML=bHtml;
   document.getElementById('s-drop').textContent=dropNeg.length?dropNegSum:'none';
-  document.getElementById('s-drop').style.color=dropNeg.length?'#E24B4A':'#639922';
+  document.getElementById('s-drop').style.color=dropNeg.length?'#d94040':'#4a8c1c';
   document.getElementById('s-add').textContent=addNeg.length?addNegSum:'none';
-  document.getElementById('s-add').style.color=addNeg.length?'#E24B4A':'#639922';
+  document.getElementById('s-add').style.color=addNeg.length?'#d94040':'#4a8c1c';
   document.getElementById('s-method').textContent=useHoliday?'Day-by-day':'Cumulative';
   sg.style.display='grid';
   rb.className='result-box '+(approved?'result-ok':'result-no');
@@ -754,9 +925,7 @@ function evaluate(){
   rs.style.color='';rs.textContent=reason;
 }
 
-// ══════════════════════════════════════════════════════
-// TRADE FINDER
-// ══════════════════════════════════════════════════════
+// ── TRADE FINDER ────────────────────────────────────
 function updateScanDropSummary(){
   const el=document.getElementById('scan-drop-summary');
   if(!scanDropSel.size){el.textContent='No days selected.';return;}
@@ -765,14 +934,11 @@ function updateScanDropSummary(){
 
 function updateLengthOptions(){
   const n=scanDropSel.size;
-  const sl=document.getElementById('single-length');
-  sl.innerHTML='';
+  const sl=document.getElementById('single-length');sl.innerHTML='';
   if(n<1){sl.innerHTML='<option value="0">— Select drop days first —</option>';return;}
-  for(let i=1;i<=n;i++){const opt=document.createElement('option');opt.value=i;opt.textContent=i===n?`${i}-day trip (same as drop)`:`${i}-day trip`;if(i===n)opt.selected=true;sl.appendChild(opt);}
-  const cd=document.getElementById('combo-max-days');
-  cd.innerHTML='';
-  if(n<1){cd.innerHTML='<option value="0">— Select drop days first —</option>';return;}
-  for(let i=1;i<=n;i++){const opt=document.createElement('option');opt.value=i;opt.textContent=i===n?`Up to ${i} days (same as drop)`:`Up to ${i} days`;if(i===n)opt.selected=true;cd.appendChild(opt);}
+  for(let i=1;i<=n+2;i++){const opt=document.createElement('option');opt.value=i;opt.textContent=i===n?`${i}-day trip (same as drop)`:i>n?`${i}-day trip (+${i-n} extra)`:`${i}-day trip`;if(i===n)opt.selected=true;sl.appendChild(opt);}
+  const cd=document.getElementById('combo-max-days');cd.innerHTML='';
+  for(let i=1;i<=n+2;i++){const opt=document.createElement('option');opt.value=i;opt.textContent=i===n?`Up to ${i} days (same as drop)`:i>n?`Up to ${i} days (+${i-n} extra)`:`Up to ${i} days`;if(i===n)opt.selected=true;cd.appendChild(opt);}
 }
 
 function updateScannerUI(){
@@ -784,120 +950,63 @@ function updateScannerUI(){
 function toggleAvoidWeekends(){
   avoidWeekendsActive=!avoidWeekendsActive;
   const btn=document.getElementById('avoid-wknd-btn');
-  if(avoidWeekendsActive){
-    btn.className='action-btn danger-btn';
-    btn.textContent='✕ Clear Weekend Avoidance';
-    // Pre-select all weekends in table
-    reserveData.forEach(r=>{if(isWeekend(r.date))avoidSel.add(r.date);});
-  } else {
-    btn.className='action-btn';
-    btn.textContent='🗓 Avoid All Weekends';
-    reserveData.forEach(r=>{if(isWeekend(r.date))avoidSel.delete(r.date);});
-  }
+  if(avoidWeekendsActive){btn.className='action-btn warn-btn';btn.textContent='✕ Clear Weekend Avoidance';allDates.forEach(r=>{if(isWeekend(r.date))avoidSel.add(r.date);});}
+  else{btn.className='action-btn';btn.textContent='🗓 Avoid All Weekends';const wd=getWorkingDays();allDates.forEach(r=>{if(isWeekend(r.date)&&!wd.has(r.date))avoidSel.delete(r.date);});}
   buildCalendarInto(document.getElementById('avoid-cal'),'avoid');
 }
 
-function tripTouchesBlocked(days){
-  return days.some(d=>avoidSel.has(d)||workingDays.has(d));
-}
-
-function getWindows(n){const dates=reserveData.map(r=>r.date),wins=[];for(let i=0;i<=dates.length-n;i++)wins.push(dates.slice(i,i+n));return wins;}
+function getWindows(n){const dates=allDates.map(r=>r.date),wins=[];for(let i=0;i<=dates.length-n;i++)wins.push(dates.slice(i,i+n));return wins;}
 function removeOverlap(days,dropDays){return days.filter(d=>!dropDays.includes(d));}
 
 function runScanner(){
-  const resultsEl=document.getElementById('scan-results');
-  resultsEl.innerHTML='';
-  if(scanDropSel.size<1){resultsEl.innerHTML='<div class="card" style="color:#A32D2D">Select at least 1 drop day first.</div>';return;}
-  const dropDays=[...scanDropSel];
-  const dropLen=dropDays.length;
+  const resultsEl=document.getElementById('scan-results');resultsEl.innerHTML='';
+  if(scanDropSel.size<1){resultsEl.innerHTML='<div class="card" style="color:#d94040;font-weight:600">Select at least 1 drop day first.</div>';return;}
+  const dropDays=[...scanDropSel],dropLen=dropDays.length;
   const mode=document.querySelector('input[name="scan-mode"]:checked').value;
-  const hasFilters=avoidSel.size>0||workingDays.size>0;
+  const hasFilters=avoidSel.size>0;
   let results=[];
+  const winBlocked=days=>days.some(d=>avoidSel.has(d));
 
   if(mode==='single'){
     const targetLen=parseInt(document.getElementById('single-length').value);
-    if(isNaN(targetLen)||targetLen<1){resultsEl.innerHTML='<div class="card" style="color:#A32D2D">Select a target trip length.</div>';return;}
-    const windows=getWindows(targetLen);
-    for(const win of windows){
-      if(tripTouchesBlocked(win))continue;
-      const effectiveAdd=removeOverlap(win,dropDays);
-      const effectiveDrop=removeOverlap(dropDays,win);
-      const{approved,reason,useHoliday}=coverageCheck(effectiveDrop,effectiveAdd);
-      if(approved)results.push({reason,useHoliday,trips:[win],totalDays:win.length,effectiveDrop,effectiveAdd});
+    if(isNaN(targetLen)||targetLen<1){resultsEl.innerHTML='<div class="card" style="color:#d94040;font-weight:600">Select a target trip length.</div>';return;}
+    for(const win of getWindows(targetLen)){
+      if(winBlocked(win))continue;
+      const ea=removeOverlap(win,dropDays),ed=removeOverlap(dropDays,win);
+      const{approved,reason,useHoliday}=coverageCheck(ed,ea);
+      if(approved)results.push({reason,useHoliday,trips:[win],totalDays:win.length,effectiveDrop:ed,effectiveAdd:ea});
     }
     results.sort((a,b)=>a.totalDays-b.totalDays);
     renderScanResults(results,dropLen,'single',hasFilters);
-
   } else {
     const maxTrips=parseInt(document.getElementById('combo-max').value);
     const maxTotalDays=parseInt(document.getElementById('combo-max-days').value)||dropLen;
     const allWindows=[];
-    for(let len=1;len<=maxTotalDays;len++){getWindows(len).forEach(w=>{if(!tripTouchesBlocked(w))allWindows.push(w);});}
-
+    for(let len=1;len<=maxTotalDays;len++)getWindows(len).forEach(w=>{if(!winBlocked(w))allWindows.push(w);});
     const combos=[];
-    for(let i=0;i<allWindows.length;i++){
-      for(let j=i+1;j<allWindows.length;j++){
-        const combined=[...allWindows[i],...allWindows[j]];
-        const unique=new Set(combined);
-        if(unique.size!==combined.length||combined.length>maxTotalDays)continue;
-        combos.push([allWindows[i],allWindows[j]]);
-      }
-    }
-    if(maxTrips>=3){
-      for(let i=0;i<allWindows.length;i++){
-        for(let j=i+1;j<allWindows.length;j++){
-          for(let k=j+1;k<allWindows.length;k++){
-            const combined=[...allWindows[i],...allWindows[j],...allWindows[k]];
-            const unique=new Set(combined);
-            if(unique.size!==combined.length||combined.length>maxTotalDays)continue;
-            combos.push([allWindows[i],allWindows[j],allWindows[k]]);
-          }
-        }
-      }
-    }
-    for(const trips of combos){
-      const allAddDays=[...new Set(trips.flat())];
-      const effectiveAdd=removeOverlap(allAddDays,dropDays);
-      const effectiveDrop=removeOverlap(dropDays,allAddDays);
-      const{approved,reason,useHoliday}=coverageCheck(effectiveDrop,effectiveAdd);
-      if(approved)results.push({reason,useHoliday,trips,totalDays:allAddDays.length,effectiveDrop,effectiveAdd});
-    }
+    for(let i=0;i<allWindows.length;i++)for(let j=i+1;j<allWindows.length;j++){const c=[...allWindows[i],...allWindows[j]];const u=new Set(c);if(u.size===c.length&&c.length<=maxTotalDays)combos.push([allWindows[i],allWindows[j]]);}
+    if(maxTrips>=3)for(let i=0;i<allWindows.length;i++)for(let j=i+1;j<allWindows.length;j++)for(let k=j+1;k<allWindows.length;k++){const c=[...allWindows[i],...allWindows[j],...allWindows[k]];const u=new Set(c);if(u.size===c.length&&c.length<=maxTotalDays)combos.push([allWindows[i],allWindows[j],allWindows[k]]);}
+    for(const trips of combos){const all=[...new Set(trips.flat())];const ea=removeOverlap(all,dropDays),ed=removeOverlap(dropDays,all);const{approved,reason,useHoliday}=coverageCheck(ed,ea);if(approved)results.push({reason,useHoliday,trips,totalDays:all.length,effectiveDrop:ed,effectiveAdd:ea});}
     const seen=new Set();
-    results=results.filter(r=>{const key=r.trips.map(t=>t.join('-')).sort().join('|');if(seen.has(key))return false;seen.add(key);return true;});
-    results.sort((a,b)=>a.totalDays-b.totalDays);
-    results=results.slice(0,30);
+    results=results.filter(r=>{const k=r.trips.map(t=>t.join('-')).sort().join('|');if(seen.has(k))return false;seen.add(k);return true;});
+    results.sort((a,b)=>a.totalDays-b.totalDays);results=results.slice(0,30);
     renderScanResults(results,dropLen,'combo',hasFilters);
   }
 }
 
 function renderScanResults(results,dropLen,mode,filtered){
   const el=document.getElementById('scan-results');
-  const filterNote=filtered?' (after filters)':'';
-  if(!results.length){el.innerHTML=`<div class="card result-box result-no"><p class="result-title">No Valid Trades Found</p><p class="result-sub">No ${mode==='single'?'single trip':'combination'} passes the coverage check${filterNote}.</p></div>`;return;}
-
-  let html=`<div class="card" style="background:#EAF3DE;border-color:#639922;margin-bottom:8px">
-    <p style="font-weight:700;color:#27500A;font-size:14px">✅ ${results.length} Valid Trade${results.length>1?'s':''} Found</p>
-    <p style="font-size:12px;color:#3B6D11">Sorted by fewest working days. Drop: ${dropLen} days${filterNote}.</p>
-  </div>`;
-
+  const fn=filtered?' (after filters)':'';
+  if(!results.length){el.innerHTML=`<div class="card result-box result-no"><p class="result-title">No Valid Trades Found</p><p class="result-sub">No ${mode==='single'?'single trip':'combination'} passes the coverage check${fn}.</p></div>`;return;}
+  let html=`<div class="card" style="background:#eef7e6;border:1.5px solid #4a8c1c;margin-bottom:10px"><p style="font-weight:800;color:#2a5c08;font-size:15px">✅ ${results.length} Valid Trade${results.length>1?'s':''} Found</p><p style="font-size:12px;color:#3a7010;margin-top:2px">Sorted by fewest working days · Drop: ${dropLen} days${fn}</p></div>`;
   results.forEach((r,idx)=>{
-    const tripLabels=r.trips.map(t=>`<b>${t[0]}</b><span style="font-size:9px"> ${getDOW(t[0])}</span>–<b>${t[t.length-1]}</b><span style="font-size:9px"> ${getDOW(t[t.length-1])}</span> (${t.length}d)`).join(' + ');
-    const savings=dropLen-r.totalDays;
-    const savBadge=savings>0?`<span style="font-size:11px;background:#27500A;color:#fff;padding:3px 8px;border-radius:12px;font-weight:700;white-space:nowrap">-${savings} day${savings>1?'s':''}</span>`:`<span style="font-size:11px;background:#1a73e8;border-radius:12px;padding:3px 8px;color:#fff;font-weight:700;white-space:nowrap">Same length</span>`;
-    const holFlag=r.useHoliday?'<span class="badge badge-hol">APD HOLIDAY</span>':'';
-    // Drop tags: coverage-colored. Add tags: always green.
-    const dropTagHtml=r.effectiveDrop.map(d=>{const c=covMap[d],neg=c<0;const bg=neg?'#F7C1C1':c===0?'#e8e8e8':'#C0DD97';const col=neg?'#501313':c===0?'#555':'#173404';return`<span class="tag" style="background:${bg};color:${col};font-size:10px">${d} <span style="font-size:8px">${getDOW(d)}</span> ${c>0?'+':''}${c}</span>`;}).join('');
-    const addTagHtml=r.effectiveAdd.map(d=>{const c=covMap[d];return`<span class="tag" style="background:#C0DD97;color:#173404;border-color:#639922;font-size:10px">${d} <span style="font-size:8px">${getDOW(d)}</span> ${c>0?'+':''}${c}</span>`;}).join('');
-
-    html+=`<div class="scan-result scan-ok">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:4px;margin-bottom:6px">
-        <div style="font-size:12px;color:#27500A;flex:1">#${idx+1}: ${tripLabels} ${holFlag}</div>
-        ${savBadge}
-      </div>
-      <div style="font-size:11px;color:#555;margin-bottom:4px"><b>${r.useHoliday?'Day-by-day':'Cumulative'}</b> · ${r.reason}</div>
-      ${r.effectiveDrop.length?`<div style="margin-bottom:3px"><span style="font-size:10px;font-weight:700;color:#A32D2D">DROP: </span>${dropTagHtml}</div>`:''}
-      ${r.effectiveAdd.length?`<div><span style="font-size:10px;font-weight:700;color:#27500A">ADD: </span>${addTagHtml}</div>`:''}
-    </div>`;
+    const tl=r.trips.map(t=>`<b>${t[0]}</b><span style="font-size:9px;opacity:.7"> ${getDOW(t[0])}</span>–<b>${t[t.length-1]}</b><span style="font-size:9px;opacity:.7"> ${getDOW(t[t.length-1])}</span> (${t.length}d)`).join(' + ');
+    const sav=dropLen-r.totalDays;
+    const sb=sav>0?`<span style="font-size:11px;background:#2a5c08;color:#fff;padding:3px 10px;border-radius:12px;font-weight:800;white-space:nowrap">-${sav} day${sav>1?'s':''}</span>`:sav<0?`<span style="font-size:11px;background:#1a73e8;color:#fff;padding:3px 10px;border-radius:12px;font-weight:800;white-space:nowrap">+${Math.abs(sav)} extra</span>`:`<span style="font-size:11px;background:#666;color:#fff;padding:3px 10px;border-radius:12px;font-weight:800;white-space:nowrap">Same length</span>`;
+    const hf=r.useHoliday?'<span class="badge badge-hol">APD HOLIDAY</span>':'';
+    const dt=r.effectiveDrop.map(d=>{const c=covMap[d]!==undefined?covMap[d]:0,neg=c<0;const bg=neg?'#fde8e8':c===0?'#eee':'#eaf3de';const col=neg?'#7a1010':c===0?'#555':'#2a5c08';return`<span class="tag" style="background:${bg};color:${col};font-size:10px">${d}<span style="font-size:8px;opacity:.7"> ${getDOW(d)}</span> ${c>0?'+':''}${c}</span>`;}).join('');
+    const at=r.effectiveAdd.map(d=>{const c=covMap[d]!==undefined?covMap[d]:0;return`<span class="tag" style="background:#eaf3de;color:#2a5c08;border-color:#4a8c1c;font-size:10px">${d}<span style="font-size:8px;opacity:.7"> ${getDOW(d)}</span> ${c>0?'+':''}${c}</span>`;}).join('');
+    html+=`<div class="scan-result"><div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:6px;margin-bottom:6px"><div style="font-size:12px;color:#2a5c08;font-weight:700;flex:1">#${idx+1} ${tl} ${hf}</div>${sb}</div><div style="font-size:11px;color:#555;margin-bottom:6px"><b>${r.useHoliday?'Day-by-day':'Cumulative'}</b> · ${r.reason}</div>${r.effectiveDrop.length?`<div style="margin-bottom:4px"><span style="font-size:10px;font-weight:800;color:#d94040">▼ DROP: </span>${dt}</div>`:''}${r.effectiveAdd.length?`<div><span style="font-size:10px;font-weight:800;color:#4a8c1c">▲ ADD: </span>${at}</div>`:''}</div>`;
   });
   el.innerHTML=html;
 }
