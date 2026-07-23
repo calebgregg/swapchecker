@@ -629,6 +629,31 @@ function buildCalendarInto(container,mode){
         continue;
       }
 
+      // For sched-add calendar: show existing rotations as dimmed non-selectable blocks
+      if(mode==='sched-add'&&rot){
+        const dayIdx=rot.days.indexOf(label);
+        const isFirstInRow=dayIdx===0||col===0;
+        if(isFirstInRow){
+          let span=0;
+          for(let c2=col;c2<7;c2++){const s2=slots[rowStart+c2];if(s2&&rotDayMap[s2.date]===rot)span++;else break;}
+          const block=document.createElement('div');
+          block.className='rot-block';
+          block.style.gridColumn='span '+span;
+          block.style.opacity='0.6';block.style.cursor='default';block.style.pointerEvents='none';
+          if(isAdj)block.style.borderColor='#c9a0e8';
+          block.innerHTML='<div class="rb-name">✈️ '+rot.name+'</div><div class="rb-range">'+rot.days[0]+'–'+rot.days[rot.days.length-1]+'</div><div class="rb-dow">'+getDOW(rot.days[0])+'–'+getDOW(rot.days[rot.days.length-1])+'</div>';
+          rowEl.appendChild(block);col+=span;
+        } else {
+          const cont=document.createElement('div');
+          cont.className='rot-cont';
+          cont.style.opacity='0.6';cont.style.cursor='default';cont.style.pointerEvents='none';
+          if(isAdj)cont.style.borderColor='#c9a0e8';
+          cont.textContent='◀ '+rot.name+' '+label;
+          rowEl.appendChild(cont);col++;
+        }
+        continue;
+      }
+
       // For drop/scan-drop calendars: show rotation blocks
       if((mode==='drop'||mode==='scan-drop')&&rot){
         const dayIdx=rot.days.indexOf(label);
