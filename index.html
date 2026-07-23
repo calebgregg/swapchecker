@@ -18,6 +18,7 @@
 .gate-error{color:#d94040;font-size:13px;font-weight:600;margin-top:12px}
 .gate-spinner{width:36px;height:36px;border:3px solid #e0e0e0;border-top-color:#1a73e8;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
 </style>
 </head>
 <body>
@@ -29,8 +30,66 @@
     <div class="gate-icon" id="gate-icon" style="display:none">✈️</div>
     <div class="gate-title" id="gate-title">Verifying Access</div>
     <div class="gate-sub" id="gate-sub">Checking your install link...</div>
-    <div class="gate-error" id="gate-error" style="display:none"></div>
-    <button class="gate-btn" id="gate-btn" style="display:none" onclick="retryLoad()">Try Again</button>
+    <button class="gate-btn" id="gate-btn" style="display:none;margin-top:12px" onclick="retryLoad()">Try Again</button>
+  </div>
+</div>
+
+<!-- INSTALL SCREEN -->
+<div id="install-screen" class="gate-screen" style="display:none;background:#1a73e8">
+  <div style="width:100%;max-width:380px;padding:0 4px">
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:28px">
+      <div style="font-size:56px;margin-bottom:10px">✈️</div>
+      <div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:6px">PCS Swap Tool</div>
+      <div style="font-size:14px;color:rgba(255,255,255,.8);line-height:1.5">Install this app on your home screen for the best experience and offline access.</div>
+    </div>
+
+    <!-- Steps card -->
+    <div style="background:#fff;border-radius:16px;padding:20px;margin-bottom:20px">
+      <div style="font-size:13px;font-weight:800;color:#1a73e8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px">How to Install</div>
+      
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#1a73e8;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:2px">Tap the Share button</div>
+          <div style="font-size:12px;color:#888">Tap <span style="font-size:15px">□↑</span> at the bottom of Safari</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#1a73e8;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:2px">Tap "Add to Home Screen"</div>
+          <div style="font-size:12px;color:#888">Scroll down in the share sheet to find it</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:14px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#1a73e8;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:2px">Tap "Add"</div>
+          <div style="font-size:12px;color:#888">Confirm the name and tap Add in the top right</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="width:28px;height:28px;border-radius:50%;background:#1a73e8;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">4</div>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#333;margin-bottom:2px">Open from your home screen</div>
+          <div style="font-size:12px;color:#888">Tap the ✈️ PCS Swap icon to launch the app</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated arrow pointing down (toward Safari toolbar) -->
+    <div style="text-align:center;animation:bounce 1.5s infinite">
+      <div style="font-size:32px">⬇️</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.9);font-weight:600;margin-top:4px">Tap Share below</div>
+    </div>
+
+    <div style="text-align:center;margin-top:20px;font-size:11px;color:rgba(255,255,255,.5)">
+      This link is single-use and tied to your device.<br>Do not share it.
+    </div>
   </div>
 </div>
 
@@ -1878,90 +1937,170 @@ const firebaseConfig = {
 const fbApp = initializeApp(firebaseConfig);
 const db = getFirestore(fbApp);
 
-const STORAGE_KEY = 'pcs_access_granted';
+const ACCESS_KEY = 'pcs_access_granted';
+const LAST_CHECK_KEY = 'pcs_last_check';
+const TOKEN_KEY = 'pcs_token_id';
+const CHECK_INTERVAL_MS = 12 * 60 * 60 * 1000; // re-check Firebase every 12 hours
 
-function showGate(icon, title, sub, error, showBtn){
-  document.getElementById('gate-spinner').style.display='none';
-  document.getElementById('gate-icon').style.display='block';
-  document.getElementById('gate-icon').textContent=icon;
-  document.getElementById('gate-title').textContent=title;
-  document.getElementById('gate-sub').textContent=sub;
-  if(error){document.getElementById('gate-error').style.display='block';document.getElementById('gate-error').textContent=error;}
-  if(showBtn)document.getElementById('gate-btn').style.display='block';
+// ── Detect if running as installed PWA (standalone) ──────────────────
+function isStandalone() {
+  return window.navigator.standalone === true ||
+         window.matchMedia('(display-mode: standalone)').matches;
 }
 
-function grantAccess(){
-  document.getElementById('gate-screen').style.display='none';
-  document.getElementById('main-app').style.display='block';
-  // Register service worker for offline
-  if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+// ── Show install instruction screen ──────────────────────────────────
+function showInstallScreen() {
+  document.getElementById('gate-screen').style.display = 'none';
+  document.getElementById('install-screen').style.display = 'flex';
+}
+
+// ── Grant access: hide gate, show tool ───────────────────────────────
+function grantAccess() {
+  document.getElementById('gate-screen').style.display = 'none';
+  document.getElementById('install-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = 'block';
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
   }
 }
 
-window.retryLoad = ()=>{ window.location.reload(); };
+// ── Show error on gate screen ─────────────────────────────────────────
+function showGateError(icon, title, sub) {
+  document.getElementById('gate-spinner').style.display = 'none';
+  document.getElementById('gate-icon').style.display = 'block';
+  document.getElementById('gate-icon').textContent = icon;
+  document.getElementById('gate-title').textContent = title;
+  document.getElementById('gate-sub').textContent = sub;
+  document.getElementById('gate-btn').style.display = 'block';
+}
 
-async function checkAccess(){
-  // Already granted on this device?
-  if(localStorage.getItem(STORAGE_KEY)==='true'){
-    grantAccess();return;
+window.retryLoad = () => { window.location.reload(); };
+
+// ── Revocation check against Firebase ────────────────────────────────
+async function checkRevocation() {
+  const tokenDocId = localStorage.getItem(TOKEN_KEY);
+  if (!tokenDocId) return true; // no record, can't check
+  try {
+    const snap = await getDocs(query(
+      collection(db, 'tokens'),
+      where('__name__', '==', tokenDocId),
+      limit(1)
+    ));
+    if (snap.empty) {
+      // Token was deleted (revoked by admin)
+      localStorage.removeItem(ACCESS_KEY);
+      localStorage.removeItem(LAST_CHECK_KEY);
+      localStorage.removeItem(TOKEN_KEY);
+      return false;
+    }
+    localStorage.setItem(LAST_CHECK_KEY, Date.now().toString());
+    return true;
+  } catch (e) {
+    // Offline or error — allow access, check next time
+    return true;
+  }
+}
+
+// ── Main access flow ──────────────────────────────────────────────────
+async function checkAccess() {
+  const alreadyGranted = localStorage.getItem(ACCESS_KEY) === 'true';
+
+  if (alreadyGranted) {
+    // Periodic revocation check (every 12 hours when online)
+    const lastCheck = parseInt(localStorage.getItem(LAST_CHECK_KEY) || '0');
+    const needsCheck = Date.now() - lastCheck > CHECK_INTERVAL_MS;
+    if (needsCheck && navigator.onLine) {
+      const stillValid = await checkRevocation();
+      if (!stillValid) {
+        showGateError('🚫', 'Access Revoked', 'Your access to this tool has been removed. Contact the administrator.');
+        return;
+      }
+    }
+    // Already granted and valid — but must be in standalone mode
+    if (isStandalone()) {
+      grantAccess();
+    } else {
+      // They have access but opened in browser — show install screen
+      showInstallScreen();
+    }
+    return;
   }
 
-  // Check URL for token
+  // No stored access — need a token
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
 
-  if(!token){
-    showGate('🔒','Access Required','You need a valid install link to access this tool. Contact the administrator for access.',null,false);
+  if (!token) {
+    showGateError('🔒', 'Access Required', 'You need a valid install link to access this tool. Contact the administrator.');
     return;
   }
 
   try {
-    // Look up token in Firestore
-    const q = query(collection(db,'tokens'), where('token','==',token), limit(1));
+    const q = query(collection(db, 'tokens'), where('token', '==', token), limit(1));
     const snap = await getDocs(q);
 
-    if(snap.empty){
-      showGate('❌','Invalid Link','This install link is not valid. Please contact the administrator for a new link.',null,true);
+    if (snap.empty) {
+      showGateError('❌', 'Invalid Link', 'This install link is not valid. Contact the administrator for a new one.');
       return;
     }
 
     const tokenDoc = snap.docs[0];
     const data = tokenDoc.data();
 
-    // Check if expired
-    if(data.expiresAt && new Date(data.expiresAt) < new Date()){
-      showGate('⏰','Link Expired','This install link has expired. Please contact the administrator for a new link.',null,false);
+    if (data.expiresAt && new Date(data.expiresAt) < new Date()) {
+      showGateError('⏰', 'Link Expired', 'This install link has expired. Contact the administrator for a new one.');
       return;
     }
 
-    // Check if already used by someone else
-    if(data.used){
-      showGate('🚫','Link Already Used','This install link has already been used. Each link is for one person only. Contact the administrator for a new link.',null,false);
+    if (data.used) {
+      showGateError('🚫', 'Link Already Used', 'This install link has already been used. Each link is single-use only. Contact the administrator for a new one.');
       return;
     }
 
-    // Mark token as used
-    await updateDoc(doc(db,'tokens',tokenDoc.id),{
+    // Consume the token
+    await updateDoc(doc(db, 'tokens', tokenDoc.id), {
       used: true,
       usedAt: new Date().toISOString(),
-      userAgent: navigator.userAgent.slice(0,200)
+      userAgent: navigator.userAgent.slice(0, 200)
     });
 
-    // Store access grant on this device
-    localStorage.setItem(STORAGE_KEY,'true');
+    // Store access on this device
+    localStorage.setItem(ACCESS_KEY, 'true');
+    localStorage.setItem(LAST_CHECK_KEY, Date.now().toString());
+    localStorage.setItem(TOKEN_KEY, tokenDoc.id);
 
-    // Clean URL (remove token from address bar)
-    window.history.replaceState({},'',window.location.pathname);
+    // Clean token from URL
+    window.history.replaceState({}, '', window.location.pathname);
 
-    grantAccess();
+    // Token valid — now enforce install before showing tool
+    showInstallScreen();
 
-  } catch(e){
-    showGate('⚠️','Connection Error','Could not verify your access link. Check your internet connection and try again.',e.message,true);
+  } catch (e) {
+    showGateError('⚠️', 'Connection Error', 'Could not verify your access. Check your internet connection and try again.');
   }
 }
 
-checkAccess();
+// Poll for standalone mode after token is validated
+// User taps Add to Home Screen and opens from icon — we detect it
+function waitForInstall() {
+  if (isStandalone()) {
+    grantAccess();
+    return;
+  }
+  // Keep checking every second while install screen is showing
+  setTimeout(waitForInstall, 1000);
+}
+
+// Hook install screen — start polling once it's shown
+const origShowInstall = showInstallScreen;
+window._startInstallPoll = waitForInstall;
+
+checkAccess().then(() => {
+  // If install screen is visible, start polling for standalone launch
+  if (document.getElementById('install-screen').style.display !== 'none') {
+    waitForInstall();
+  }
+});
 </script>
 
 </body>
