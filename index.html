@@ -44,7 +44,7 @@ table{border-collapse:collapse;width:100%}
 .cal-day.wknd-day .dd{color:#c07000}
 .cal-day.sel-drop{background:rgba(220,60,50,.2);border-color:rgba(200,40,40,.65);color:#7a1010}
 .cal-day.sel-add{background:rgba(60,140,40,.18);border-color:rgba(50,130,30,.6);color:#1a5c08}
-.cal-day.overlap{background:rgba(185,115,0,.18);border-color:rgba(185,115,0,.55);color:#6b3f00;text-decoration:line-through}
+.cal-day.overlap{background:rgba(130,50,180,.2);border-color:rgba(110,30,160,.6);color:#4a0e7a;text-decoration:line-through}
 .cal-day.avoided{background:rgba(220,60,50,.15);border-color:rgba(200,40,40,.5);color:#7a1010}
 .cal-day.no-sel{cursor:default;opacity:.5;pointer-events:none}
 .cal-day.empty{background:transparent;border-color:transparent;cursor:default;pointer-events:none}
@@ -103,6 +103,7 @@ table{border-collapse:collapse;width:100%}
 <body>
 <div class="app-title">✈️ PCS Swap Tool</div>
 <div class="app-sub">Reserve coverage swap evaluator for PCS Swap with Pot</div>
+<div style="font-size:12px;color:#7a4800;background:#fff8ee;border:1px solid #e8b86d;border-radius:10px;padding:10px 12px;margin-bottom:12px;line-height:1.5">⚠️ <b>Disclaimer:</b> Swap approvals are never guaranteed. Reserve coverage tables refresh throughout the PCS run window, and conditions change quickly. Use this tool to focus your efforts on the most favorable swaps — always verify your final request against live iCrew data before submitting.</div>
 
 <!-- RESERVE TABLE -->
 <div class="card">
@@ -261,7 +262,7 @@ table{border-collapse:collapse;width:100%}
   <!-- COMBO OPTIONS -->
   <div class="card" id="combo-options" style="display:none">
     <div class="step-label"><span class="step-num">3</span>Combination Options</div>
-    <div class="step-desc">Set the number of rotations and max total days. Valid rotation lengths update automatically.</div>
+
     <div style="display:flex;flex-direction:column;gap:14px">
       <div>
         <p style="font-size:12px;font-weight:700;color:#555;margin-bottom:6px">NUMBER OF ROTATIONS TO PICK UP</p>
@@ -277,7 +278,7 @@ table{border-collapse:collapse;width:100%}
       </div>
       <div>
         <p style="font-size:12px;font-weight:700;color:#555;margin-bottom:6px">INCLUDE ROTATION LENGTHS</p>
-        <p style="font-size:11px;color:#888;margin-bottom:8px">Only mathematically possible lengths are selectable given your rotation count and max days.</p>
+
         <div id="combo-len-checks" style="display:flex;flex-wrap:wrap;gap:6px"></div>
       </div>
     </div>
@@ -417,14 +418,14 @@ function setSchedLen(n){schedLen=n;updateLenBtns('slb',n);}
 function updateLenBtns(prefix,n){for(let i=1;i<=5;i++){const b=document.getElementById(prefix+i);if(b)b.className='action-btn'+(i===n?' primary-btn':'');}}
 function addSchedRot(){
   if(!schedStartDay){alert('Select a start day on the calendar first.');return;}
-  addRotObj(schedStartDay,schedLen);schedStartDay=null;sortRotations();renderScheduleList();buildSchedAddCal();
+  addRotObj(schedStartDay,schedLen);schedStartDay=null;sortRotations();renderScheduleList();
   updateLenBtns('slb',1);schedLen=1;
-  if(reserveData.length)refreshAllCals();
+  if(reserveData.length){refreshAllCals();buildSchedAddCal();}
   renderMaxOffRotList();
 }
 function removeRot(idx){
   myRotations.splice(idx,1);sortRotations();saveRots();updateSchedSub();renderScheduleList();
-  if(reserveData.length){refreshAllCals();rebuildAvoidForSchedule();}
+  if(reserveData.length){refreshAllCals();rebuildAvoidForSchedule();buildSchedAddCal();}
   renderMaxOffRotList();
 }
 function addRotObj(startLabel,len){
@@ -587,17 +588,29 @@ function buildCalendarInto(container,mode){
         (mode==='avoid'&&rot&&scanDropSel.has(label))  // dropped days become plain avoidable days
       );
 
-      // For add calendar: if rotation exists but not dropped -> non-selectable
+      // For add calendar: kept (non-dropped) rotations show as dimmed rot blocks
       if(mode==='add'&&rot&&!rot.days.every(d=>dropSel.has(d))){
-        // Kept working rotation — render as plain non-selectable
-        const cell=document.createElement('div');
-        let cls='cal-day no-sel';
-        if(isAdj)cls+=' adj-period';
-        else if(isWeekend(label))cls+=' wknd-day';
-        const dow=getDOW(label);
-        cell.className=cls;
-        cell.innerHTML=`<span class="dl">${label}</span><span class="dd">${dow}</span>`;
-        rowEl.appendChild(cell);col++;continue;
+        const dayIdx=rot.days.indexOf(label);
+        const isFirstInRow=dayIdx===0||col===0;
+        if(isFirstInRow){
+          let span=0;
+          for(let c2=col;c2<7;c2++){const s2=slots[rowStart+c2];if(s2&&rotDayMap[s2.date]===rot)span++;else break;}
+          const block=document.createElement('div');
+          block.className='rot-block';
+          block.style.gridColumn='span '+span;
+          block.style.opacity='0.5';block.style.cursor='default';block.style.pointerEvents='none';
+          if(isAdj)block.style.borderColor='#c9a0e8';
+          block.innerHTML='<div class="rb-name">✈️ '+rot.name+'</div><div class="rb-range">'+rot.days[0]+'–'+rot.days[rot.days.length-1]+'</div><div class="rb-dow">'+getDOW(rot.days[0])+'–'+getDOW(rot.days[rot.days.length-1])+'</div>';
+          rowEl.appendChild(block);col+=span;
+        } else {
+          const cont=document.createElement('div');
+          cont.className='rot-cont';
+          cont.style.opacity='0.5';cont.style.cursor='default';cont.style.pointerEvents='none';
+          if(isAdj)cont.style.borderColor='#c9a0e8';
+          cont.textContent='◀ '+rot.name+' '+label;
+          rowEl.appendChild(cont);col++;
+        }
+        continue;
       }
 
       // For avoid calendar: if rotation exists and NOT in scanDropSel -> show as avoided rot-block
@@ -783,7 +796,7 @@ function evaluate(){
   const{approved,reason,useHoliday,dropNeg,addNeg,dropNegSum,addNegSum}=coverageCheck(dropDays,addDays);
   const makeTag=(d,side)=>{const c=covMap[d]!==undefined?covMap[d]:0,dow=getDOW(d);let bg,col,border;if(side==='drop'){bg=c<0?'#fde8e8':c===0?'#eee':'#eaf3de';col=c<0?'#7a1010':c===0?'#555':'#2a5c08';border=c<0?'#d94040':c===0?'#bbb':'#4a8c1c';}else{bg='#eaf3de';col='#2a5c08';border='#4a8c1c';}const hol=side==='drop'&&isAPD(d);return`<span class="tag" style="background:${bg};color:${col};border-color:${border}">${d} <span style="font-size:9px;opacity:.7">${dow}</span> <b>${c>0?'+':''}${c}</b>${hol?'<span class="badge badge-hol">HOL</span>':''}</span>`;};
   let bHtml='';
-  if(overlapDays.length){bHtml+=`<p style="margin-bottom:6px"><b>Overlapping (skipped):</b> `;overlapDays.forEach(d=>bHtml+=`<span class="tag" style="background:#fff8ee;color:#7a4800;border-color:#e8b86d">${d} <span style="font-size:9px">${getDOW(d)}</span></span>`);bHtml+='</p>';}
+  if(overlapDays.length){bHtml+=`<p style="margin-bottom:6px"><b>Overlapping (skipped):</b> `;overlapDays.forEach(d=>bHtml+=`<span class="tag" style="background:rgba(130,50,180,.15);color:#4a0e7a;border-color:rgba(110,30,160,.5);text-decoration:line-through">${d} <span style="font-size:9px">${getDOW(d)}</span></span>`);bHtml+='</p>';}
   if(dropDays.length){bHtml+=`<p style="margin-bottom:4px;font-weight:800;font-size:12px;color:#d94040">▼ Drop:</p><div style="margin-bottom:8px">`;dropDays.forEach(d=>bHtml+=makeTag(d,'drop'));bHtml+='</div>';}
   if(addDays.length){bHtml+=`<p style="margin-bottom:4px;font-weight:800;font-size:12px;color:#4a8c1c">▲ Add:</p><div>`;addDays.forEach(d=>bHtml+=makeTag(d,'add'));bHtml+='</div>';}
   if(useHoliday)bHtml+=`<p style="margin-top:8px;font-size:11px;color:#854F0B;background:#fff3d6;padding:5px 10px;border-radius:6px;display:inline-block">⚠️ APD Holiday period — day-by-day check applies</p>`;
